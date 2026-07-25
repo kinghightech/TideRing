@@ -11,9 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		0E7FE9CC30018BC0002659A6 /* ringmvp */ = {
+		0E7FE9CC30018BC0002659A6 /* tide */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ringmvp;
+			path = tide;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		0E7FE9C130018BC0002659A6 = {
 			isa = PBXGroup;
 			children = (
-				0E7FE9CC30018BC0002659A6 /* ringmvp */,
+				0E7FE9CC30018BC0002659A6 /* tide */,
 				0E7FE9CB30018BC0002659A6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				0E7FE9CC30018BC0002659A6 /* ringmvp */,
+				0E7FE9CC30018BC0002659A6 /* tide */,
 			);
 			name = ringmvp;
 			packageProductDependencies = (
@@ -256,6 +256,10 @@
 				DEVELOPMENT_TEAM = KZRTRUU4S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Tide;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "RingMVP uses Bluetooth to connect to your smart ring and retrieve measurements.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tide uses the camera so your ring can take photos inside the app.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Tide saves photos you take to your photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -288,6 +292,10 @@
 				DEVELOPMENT_TEAM = KZRTRUU4S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Tide;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "RingMVP uses Bluetooth to connect to your smart ring and retrieve measurements.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Tide uses the camera so your ring can take photos inside the app.";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Tide saves photos you take to your photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
