@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Views/SettingsView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SettingsView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SettingsView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/SummaryView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SummaryView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SummaryView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SummaryView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SummaryView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/SummaryView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/TideActivityView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/TideActivityView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/TideActivityView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/TideActivityView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/TideActivityView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/TideActivityView.swiftdeps"
+  }
+}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>colors</key>
+	<array/>
+	<key>images</key>
+	<array>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/aahishabbani/Projects/tide/tide/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameMorning</string>
+			<key>relativePath</key>
+			<string>./morning.imageset</string>
+			<key>swiftSymbol</key>
+			<string>morning</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/aahishabbani/Projects/tide/tide/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameNewbg</string>
+			<key>relativePath</key>
+			<string>./newbg.imageset</string>
+			<key>swiftSymbol</key>
+			<string>newbg</string>
+		</dict>
+		<dict>
+			<key>catalogPath</key>
+			<string>/Users/aahishabbani/Projects/tide/tide/Assets.xcassets</string>
+			<key>objcSymbol</key>
+			<string>ACImageNameRing</string>
+			<key>relativePath</key>
+			<string>./ring.imageset</string>
+			<key>swiftSymbol</key>
+			<string>ring</string>
+		</dict>
+	</array>
+	<key>symbols</key>
+	<array/>
+</dict>
+</plist>

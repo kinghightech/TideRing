@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Views/FlappyBirdGameView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/FlappyBirdGameView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/FlappyBirdGameView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/FlappyBirdGameView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/FlappyBirdGameView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/FlappyBirdGameView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/MetricCharts.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricCharts.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricCharts.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricCharts.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricCharts.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricCharts.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/MetricDetailView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricDetailView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricDetailView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricDetailView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricDetailView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/arm64/MetricDetailView.swiftdeps"
+  }
+}

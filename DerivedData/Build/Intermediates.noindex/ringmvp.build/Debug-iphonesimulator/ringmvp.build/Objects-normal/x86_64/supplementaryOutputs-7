@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Views/ChromeDinoGame.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/ChromeDinoGame.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/ChromeDinoGame.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/ChromeDinoGame.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/ChromeDinoGame.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/ChromeDinoGame.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/CreditsView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/CreditsView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/CreditsView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/CreditsView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/CreditsView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/CreditsView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/DiagnosticsView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/DiagnosticsView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/DiagnosticsView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/DiagnosticsView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/DiagnosticsView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/DiagnosticsView.swiftdeps"
+  }
+}

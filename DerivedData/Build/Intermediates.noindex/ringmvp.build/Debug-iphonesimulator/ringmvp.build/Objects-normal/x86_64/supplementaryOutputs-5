@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Ring/TideReadiness.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/TideReadiness.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/TideReadiness.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/TideReadiness.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/TideReadiness.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/TideReadiness.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/Onboarding/OnboardingFlow.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/OnboardingFlow.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/OnboardingFlow.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/OnboardingFlow.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/OnboardingFlow.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/OnboardingFlow.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/Settings/SettingsDetailViews.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/SettingsDetailViews.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/SettingsDetailViews.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/SettingsDetailViews.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/SettingsDetailViews.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphonesimulator/ringmvp.build/Objects-normal/x86_64/SettingsDetailViews.swiftdeps"
+  }
+}

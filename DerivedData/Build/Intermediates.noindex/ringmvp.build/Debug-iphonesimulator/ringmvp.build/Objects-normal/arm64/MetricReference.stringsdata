@@ -1,0 +1,24 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/MetricReference.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "REFERENCE ZONES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 259
+        }
+      },
+      {
+        "comment": "",
+        "key": "WHAT THIS MEANS",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 290
+        }
+      }
+    ]
+  },
+  "version": 1
+}

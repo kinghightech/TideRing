@@ -11,7 +11,7 @@
 import SwiftUI
 
 enum SettingsRoute: Hashable {
-    case device, profile, goals, measurement, calibration, camera, games, chromeDino, about, diagnostics, credits, privacy
+    case device, profile, goals, measurement, calibration, camera, games, ripTide, chromeDino, about, diagnostics, credits, privacy
 }
 
 struct SettingsView: View {
@@ -49,6 +49,8 @@ struct SettingsView: View {
                         TideSettingsSection(header: "Games") {
                             TideSettingsRow(icon: "gamecontroller.fill", tint: Color(red: 0.95, green: 0.6, blue: 0.2),
                                             title: "Flappy Ring", value: "Play") { path.append(SettingsRoute.games) }
+                            TideSettingsRow(icon: "water.waves", tint: Color(red: 0.2, green: 0.7, blue: 0.98),
+                                            title: "Riptide", value: "Play") { path.append(SettingsRoute.ripTide) }
                             TideSettingsRow(icon: "figure.run", tint: Color(red: 0.4, green: 0.8, blue: 0.4),
                                             title: "Chrome Dino", value: "Play") { path.append(SettingsRoute.chromeDino) }
                         }
@@ -88,6 +90,7 @@ struct SettingsView: View {
                 case .calibration: SettingsCalibrationView(manager: manager)
                 case .camera: TideCameraView(manager: manager)
                 case .games: FlappyBirdGameView(manager: manager)
+                case .ripTide: RipTideGameView(manager: manager)
                 case .chromeDino: ChromeDinoGameView(manager: manager)
                 case .about: SettingsAboutView(manager: manager, path: $path)
                 case .diagnostics: DiagnosticsView(manager: manager)
