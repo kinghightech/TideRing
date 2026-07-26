@@ -905,4 +905,336 @@ struct NebulaDriftGameView: View {
     }
     
     @ViewBuilder
-    private func asteroidView(_ ast: NebulaAsteroid) ->  some View }
+    private func asteroidView(_ ast: NebulaAsteroid) -> some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .fill(Color(red: 0.35, green: 0.38, blue: 0.45))
+                .frame(width: ast.radius * 2, height: ast.radius * 2)
+                .rotationEffect(.radians(ast.rotationAngle))
+        }
+        .position(ast.position)
+    }
+    
+    @ViewBuilder
+    private func stardustView(_ dust: NebulaStardust) -> some View {
+        Image(systemName: "sparkle")
+            .font(.system(size: 16, weight: .bold))
+            .foregroundStyle(Color.yellow)
+            .shadow(color: .yellow.opacity(0.8), radius: 6)
+            .position(dust.position)
+    }
+    
+    @ViewBuilder
+    private func wormholeView(_ portal: NebulaWormhole) -> some View {
+        ZStack {
+            Circle()
+                .fill(RadialGradient(colors: [.white, .cyan, .purple, .clear], center: .center, startRadius: 4, endRadius: portal.radius * 2))
+                .frame(width: portal.radius * 3, height: portal.radius * 3)
+            Circle()
+                .stroke(Color.cyan, lineWidth: 3)
+                .frame(width: portal.radius * 2, height: portal.radius * 2)
+        }
+        .position(portal.position)
+    }
+    
+    @ViewBuilder
+    private func shipView() -> some View {
+        ZStack {
+            // Outer aura glow
+            Circle()
+                .fill(engine.activeSkin.glowColor.opacity(0.5))
+                .frame(width: 32, height: 32)
+                .blur(radius: 6)
+            
+            // Starcraft triangular body
+            Image(systemName: "location.north.fill")
+                .font(.system(size: 20, weight: .black))
+                .foregroundStyle(engine.activeSkin.primaryColor)
+                .rotationEffect(.radians(engine.shipAngle + .pi / 2))
+        }
+        .position(engine.shipPos)
+    }
+    
+    // MARK: - HUD Overlay
+    
+    @ViewBuilder
+    private func hudOverlay(size: CGSize) -> some View {
+        VStack {
+            // Top Bar: Sector, Shields, Stardust, Shop Toggle
+            HStack(spacing: 12) {
+                // Sector Badge
+                Text("SECTOR \(engine.sector)")
+                    .font(TideFont.sans(14, weight: .bold))
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(TideColors.accent, in: Capsule())
+                
+                // Health Shields
+                HStack(spacing: 4) {
+                    ForEach(0..<max(0, engine.shields), id: \.self) { _ in
+                        Image(systemName: "shield.fill")
+                            .font(.caption)
+                            .foregroundStyle(Color.cyan)
+                    }
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 5)
+                .background { Color.black.opacity(0.4).glassEffect(.regular, in: Capsule()) }
+                
+                Spacer()
+                
+                // Stardust Count
+                HStack(spacing: 4) {
+                    Image(systemName: "sparkles")
+                        .font(.caption)
+                        .foregroundStyle(.yellow)
+                    Text("\(engine.totalStardustBank)")
+                        .font(TideFont.sans(13, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .padding(.horizontal, 10)
+                .padding(.vertical, 5)
+                .background { Color.black.opacity(0.4).glassEffect(.regular, in: Capsule()) }
+                
+                // Hangar Shop Button
+                Button {
+                    showShop.toggle()
+                } label: {
+                    Image(systemName: "wrench.and.screwdriver.fill")
+                        .font(.caption.weight(.bold))
+                        .foregroundStyle(.white)
+                        .padding(8)
+                        .background { Color.black.opacity(0.4).glassEffect(.regular, in: Circle()) }
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 10)
+            
+            // Score Display
+            HStack {
+                Text("DISTANCE: \(engine.score)m")
+                    .font(TideFont.sans(14, weight: .bold))
+                    .foregroundStyle(.white)
+                Spacer()
+                if engine.bestScore > 0 {
+                    Text("BEST: \(engine.bestScore)m")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 4)
+            
+            Spacer()
+            
+            // Tether Status Banner at bottom
+            if engine.phase == .playing {
+                HStack(spacing: 8) {
+                    Circle()
+                        .fill(engine.tetherTargetId != nil ? Color.green : Color.cyan)
+                        .frame(width: 8, height: 8)
+                    Text(engine.tetherTargetId != nil ? "TETHERED — TAP TO SLINGSHOT" : "TAP RING TO TETHER")
+                        .font(TideFont.sans(13, weight: .bold))
+                        .foregroundStyle(.white)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background { Color.black.opacity(0.5).glassEffect(.regular, in: Capsule()) }
+                .padding(.bottom, 24)
+            }
+        }
+    }
+    
+    // MARK: - State & Shop Modals
+    
+    @ViewBuilder
+    private func stateOverlays(size: CGSize) -> some View {
+        if showShop {
+            hangarShopModal()
+        } else if engine.phase == .idle {
+            VStack(spacing: 18) {
+                Text("NEBULA DRIFT")
+                    .font(TideFont.serif(36, weight: .bold))
+                    .foregroundStyle(LinearGradient(colors: [TideColors.accent, .purple], startPoint: .top, endPoint: .bottom))
+                    .shadow(color: TideColors.glow.opacity(0.6), radius: 12)
+                
+                Text("Tap the ring to attach a gravity tether to star cores. Slingshot around black holes, dodge asteroids, and reach the wormhole portal!")
+                    .font(TideFont.sans(14, weight: .medium))
+                    .foregroundStyle(.white.opacity(0.85))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+                
+                Button {
+                    engine.start()
+                } label: {
+                    Label("LAUNCH PROBE", systemImage: "play.fill")
+                        .font(TideFont.sans(16, weight: .bold))
+                        .foregroundStyle(.black)
+                        .frame(width: 220, height: 50)
+                        .background(TideColors.ctaGradient, in: Capsule())
+                        .shadow(color: TideColors.glow.opacity(0.6), radius: 10)
+                }
+                .padding(.top, 8)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black.opacity(0.7))
+        } else if engine.phase == .exploded {
+            VStack(spacing: 18) {
+                Image(systemName: "bolt.shield.fill")
+                    .font(.system(size: 54))
+                    .foregroundStyle(.red)
+                    .shadow(color: .red.opacity(0.8), radius: 14)
+                
+                Text("PROBE DESTROYED")
+                    .font(TideFont.serif(30, weight: .bold))
+                    .foregroundStyle(.white)
+                
+                Text("DISTANCE REACHED: \(engine.score)m")
+                    .font(TideFont.sans(16, weight: .bold))
+                    .foregroundStyle(TideColors.accent)
+                
+                Button {
+                    engine.start()
+                } label: {
+                    Label("RELAUNCH PROBE", systemImage: "arrow.counterclockwise")
+                        .font(TideFont.sans(16, weight: .bold))
+                        .foregroundStyle(.black)
+                        .frame(width: 200, height: 48)
+                        .background(TideColors.ctaGradient, in: Capsule())
+                }
+                .padding(.top, 6)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black.opacity(0.8))
+        } else if engine.phase == .sectorClear {
+            VStack(spacing: 18) {
+                Image(systemName: "sparkles.tv.fill")
+                    .font(.system(size: 54))
+                    .foregroundStyle(.cyan)
+                    .shadow(color: .cyan.opacity(0.8), radius: 14)
+                
+                Text("SECTOR \(engine.sector) CLEAR!")
+                    .font(TideFont.serif(30, weight: .bold))
+                    .foregroundStyle(.white)
+                
+                Text("WORMHOLE WARP READY")
+                    .font(TideFont.sans(15, weight: .bold))
+                    .foregroundStyle(TideColors.accent)
+                
+                Button {
+                    engine.nextSector()
+                } label: {
+                    Text("WARP TO SECTOR \(engine.sector + 1)")
+                        .font(TideFont.sans(16, weight: .bold))
+                        .foregroundStyle(.black)
+                        .frame(width: 220, height: 48)
+                        .background(TideColors.ctaGradient, in: Capsule())
+                }
+                .padding(.top, 6)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.black.opacity(0.8))
+        }
+    }
+    
+    // MARK: - Hangar Shop Modal
+    
+    @ViewBuilder
+    private func hangarShopModal() -> some View {
+        VStack(spacing: 16) {
+            HStack {
+                Text("HANGAR UPGRADES")
+                    .font(TideFont.serif(22, weight: .bold))
+                    .foregroundStyle(.white)
+                Spacer()
+                Button {
+                    showShop = false
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.title2)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 20)
+            
+            ScrollView {
+                VStack(spacing: 14) {
+                    // Ship Skins
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("SHIP COLOR SKINS")
+                            .font(.caption.weight(.bold))
+                            .foregroundStyle(.secondary)
+                        
+                        HStack(spacing: 10) {
+                            ForEach(NebulaShipSkin.allCases) { skin in
+                                Button {
+                                    engine.selectSkin(skin)
+                                } label: {
+                                    Circle()
+                                        .fill(skin.primaryColor)
+                                        .frame(width: 38, height: 38)
+                                        .overlay(
+                                            Circle()
+                                                .stroke(Color.white, lineWidth: engine.activeSkin == skin ? 3 : 0)
+                                        )
+                                }
+                            }
+                        }
+                    }
+                    .padding()
+                    .background { Color.white.opacity(0.08).glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16)) }
+                    
+                    // Upgrade Rows
+                    upgradeRow(title: "Thruster Speed", level: engine.upgrades.thrusterLevel, cost: engine.getUpgradeCost("thruster")) {
+                        _ = engine.buyUpgrade("thruster")
+                    }
+                    upgradeRow(title: "Tether Range", level: engine.upgrades.tetherLevel, cost: engine.getUpgradeCost("tether")) {
+                        _ = engine.buyUpgrade("tether")
+                    }
+                    upgradeRow(title: "Shield Hull", level: engine.upgrades.shieldLevel, cost: engine.getUpgradeCost("shield")) {
+                        _ = engine.buyUpgrade("shield")
+                    }
+                    upgradeRow(title: "Stardust Magnet", level: engine.upgrades.stardustMagnet, cost: engine.getUpgradeCost("magnet")) {
+                        _ = engine.buyUpgrade("magnet")
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.88))
+    }
+    
+    @ViewBuilder
+    private func upgradeRow(title: String, level: Int, cost: Int, action: @escaping () -> Void) -> some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(TideFont.sans(15, weight: .bold))
+                    .foregroundStyle(.white)
+                Text("Level \(level)")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
+            Spacer()
+            
+            Button(action: action) {
+                HStack(spacing: 4) {
+                    Image(systemName: "sparkles").font(.caption).foregroundStyle(.yellow)
+                    Text("\(cost)")
+                        .font(TideFont.sans(14, weight: .bold))
+                        .foregroundStyle(engine.totalStardustBank >= cost ? .black : .white.opacity(0.5))
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(engine.totalStardustBank >= cost ? TideColors.ctaGradient : LinearGradient(colors: [.gray], startPoint: .top, endPoint: .bottom), in: Capsule())
+            }
+            .disabled(engine.totalStardustBank < cost)
+        }
+        .padding()
+        .background { Color.white.opacity(0.08).glassEffect(.regular, in: RoundedRectangle(cornerRadius: 16)) }
+    }
+}
