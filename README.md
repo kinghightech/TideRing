@@ -1,6 +1,6 @@
 # Tide 🌊
 
-Hey, I'm Aahish and this is Tide — an iOS app I built that talks to a cheap Oura-Ring-style smart ring over Bluetooth and turns the data it spits out into something actually useful and nice to look at. This is basically my baby project, I built like 95% of this myself and I wanted to write this readme in my own words instead of some generic AI sounding doc, so bare with me if the grammar isnt perfect lol.
+Hey, I'm Aahish and this is Tide! an iOS app I built that talks to a cheap Oura-Ring-style smart ring over Bluetooth and turns the data it spits out into something actually useful and nice to look at. This is basically my baby project, I built like 95% of this myself and I wanted to write this readme in my own words instead of some generic AI sounding doc, so bare with me if the grammar isnt perfect lol.
 
 ## Why I even made this
 
