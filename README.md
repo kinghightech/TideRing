@@ -2,16 +2,30 @@
 
 so this is Tide, its an app i made for my smart ring, basically i bought one of those cheap knockoff oura ring things off amazon and the app that came with it was honestly pretty bad, laggy, ugly, barely showed you anything, so i just decided ill build my own. im Aahish and i built basically all of this myself, its an ios app made in swift/swiftui, connects to the ring over bluetooth and pulls stuff like heart rate, blood oxygen, sleep, steps, stress off it and shows it to you in a way that actually looks nice and isnt confusing.
 
-not gonna lie the bluetooth part was the hardest part of this whole thing. these rings dont come with any documentation on how the bluetooth protocol works, its literally just random bytes going back and forth and you have to figure out what they mean yourself. i used AI to help me a lot with that part, like figuring out the packet structure and getting coreBluetooth to actually talk to the ring properly, i wont pretend i reverse engineered all of that by hand cause thats just not true. i also used part of an open source project called PulseLoop made by a guy named Saksham Bhutani who had already figured out a lot of the ring protocol before me, that part of the code is his originally and its licensed CC BY 4.0 so i gave him credit for it inside the app in the credits page. but everything else, like the actual app, the screens, the design, how everything looks and works, thats all me.
+## the bluetooth part
+
+not gonna lie this was the hardest part of the whole thing. these rings dont come with any documentation on how the bluetooth protocol works, its literally just random bytes going back and forth and you have to figure out what they mean yourself. i used AI to help me a lot with that part, like figuring out the packet structure and getting coreBluetooth to actually talk to the ring properly, i wont pretend i reverse engineered all of that by hand cause thats just not true. i also used part of an open source project called PulseLoop made by a guy named Saksham Bhutani who had already figured out a lot of the ring protocol before me, that part of the code is his originally and its licensed CC BY 4.0 so i gave him credit for it inside the app in the credits page. but everything else, like the actual app, the screens, the design, how everything looks and works, thats all me.
+
+## what it does
 
 app wise it has a home screen that shows your readiness score and your main stats for the day, a trends page with charts so you can see how stuff changes over time instead of just one number, a vitals section that breaks down heart rate/spo2/blood pressure/stress individually, sleep tracking that groups your sleep into nights properly instead of just random calendar days, and step/calorie tracking too. theres also a camera thing where you can literally tap the ring and it takes a photo on your phone which is kinda cool ngl. and then i also built a few little games you can control by tapping the ring instead of the screen, like a dino runner clone and a flappy bird clone and a couple original ones i made up, mostly just for fun to show off what the ring could actually do besides just health stuff.
 
+## data
+
 everything is stored locally on your phone, theres no backend, no server, no account, nothing gets uploaded anywhere, its literally just a json file sitting in the app's storage on your device. i did that on purpose cause i didnt want to deal with hosting anyones health data or paying for a server for a personal project, and also just feels more private that way.
 
-tech wise its swift 5 with strict concurrency on, swiftui for the whole ui, corebluetooth for the ring connection, and i didnt use any external packages or pods or anything, its all just apple's own frameworks. no database either, just a plain json file. targets newer ios versions and really needs a real iphone to test on properly since bluetooth doesnt work great in the simulator.
+## tech stack
 
-design wise i wanted it to not look like every other boring fitness app so i made my own little design system with a blue/cyan color theme to match the whole "tide" name, glassy frosted looking cards using the newer ios glass effects, and a custom serif font for headers so it feels a bit more put together than just default system fonts everywhere.
+swift 5 with strict concurrency on, swiftui for the whole ui, corebluetooth for the ring connection, and i didnt use any external packages or pods or anything, its all just apple's own frameworks. no database either, just a plain json file. targets newer ios versions and really needs a real iphone to test on properly since bluetooth doesnt work great in the simulator.
 
-this is still kind of a work in progress, its not on the app store yet, i mainly built it for my own ring and my own use so far, no test suite or anything fancy, just been testing it by actually wearing the ring and using the app myself.
+## design
+
+i wanted it to not look like every other boring fitness app so i made my own little design system with a blue/cyan color theme to match the whole "tide" name, glassy frosted looking cards using the newer ios glass effects, and a custom serif font for headers so it feels a bit more put together than just default system fonts everywhere.
+
+## status
+
+still kind of a work in progress, its not on the app store yet, i mainly built it for my own ring and my own use so far, no test suite or anything fancy, just been testing it by actually wearing the ring and using the app myself.
+
+## copyright
 
 This project is copyrighted and fully owned by me, Aahish. All rights reserved. You are not allowed to copy, reuse, redistribute, resell or repackage any part of this code, the design, the content or the concept without my direct written permission. If you take this project or any meaningfull portion of it and use it as your own, you are breaking copyright law and you can and will be sued for it. Basically dont copy my work. If you want to use something here, just ask me first.
