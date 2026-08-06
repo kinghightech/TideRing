@@ -159,7 +159,7 @@
         "key": "MONTHLY AVERAGE",
         "location": {
           "startingColumn": 43,
-          "startingLine": 614
+          "startingLine": 605
         }
       },
       {
@@ -167,7 +167,7 @@
         "key": "NIGHTLY SLEEP",
         "location": {
           "startingColumn": 63,
-          "startingLine": 614
+          "startingLine": 605
         }
       },
       {
@@ -175,7 +175,7 @@
         "key": "Wear the ring overnight, then connect in the morning — it stores each night on-ring and syncs here. Awake time is captured from restlessness (finger movement) during the night.",
         "location": {
           "startingColumn": 22,
-          "startingLine": 660
+          "startingLine": 650
         }
       },
       {
@@ -183,7 +183,7 @@
         "key": "No sleep recorded yet",
         "location": {
           "startingColumn": 38,
-          "startingLine": 659
+          "startingLine": 649
         }
       },
       {
@@ -191,7 +191,7 @@
         "key": "Not enough nights yet",
         "location": {
           "startingColumn": 64,
-          "startingLine": 659
+          "startingLine": 649
         }
       },
       {
@@ -199,7 +199,7 @@
         "key": "%lld",
         "location": {
           "startingColumn": 22,
-          "startingLine": 705
+          "startingLine": 695
         }
       }
     ]

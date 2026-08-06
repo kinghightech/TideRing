@@ -72,29 +72,10 @@ struct SleepNight: Identifiable {
     /// to the Home readiness score (`TideReadinessEngine.sleepScore`) — do not change its meaning.
     var asleepMinutes: Int { lightMinutes + deepMinutes + remMinutes }
 
-    /// Time in bed: first block start → last block end, gaps included. This is what you experience
-    /// as "I slept 2 AM–10 AM", so it is what the Sleep screen headlines. Mirrors PulseLoop's
-    /// `session.totalMinutes` (PulseEventBus.swift:456), which is also a pure span.
+    /// The session length: first block start → last block end. This is PulseLoop's
+    /// `session.totalMinutes` (PulseEventBus.swift:456) — a pure span — and is what the Sleep screen
+    /// headlines, so the big number always matches the start–end range printed under it.
     var timeInBedMinutes: Int { max(0, Int(end.timeIntervalSince(start) / 60)) }
-
-    /// Minutes inside the session the ring never reported a stage for — dropped packets, or the
-    /// ring off the finger. Defined as the remainder so that
-    /// `deep + light + awake + unmeasured == timeInBedMinutes` always holds and the Sleep screen's
-    /// four tiles reconcile with its headline.
-    var unmeasuredMinutes: Int {
-        max(0, timeInBedMinutes - deepMinutes - lightMinutes - awakeMinutes)
-    }
-
-    /// Whether the ring gave any evidence about wakefulness. False means "we don't know", which the
-    /// UI must render as "—" rather than a confident "0h 0m". Ported from PulseLoop's
-    /// `SleepInsights.hasAwakeSignal` (SleepInsights.swift:79-87); its 95 % coverage clause treats a
-    /// night that is almost fully staged as genuinely gap-free rather than silently awake.
-    var hasAwakeSignal: Bool {
-        if awakeMinutes > 0 || blocks.contains(where: { $0.stage == .awake }) { return true }
-        guard timeInBedMinutes > 0 else { return false }
-        let staged = deepMinutes + lightMinutes + awakeMinutes
-        return Double(staged) >= Double(timeInBedMinutes) * 0.95
-    }
 }
 
 /// A per-day cumulative activity snapshot (steps/distance/calories).
@@ -165,6 +146,13 @@ final class RingStore: ObservableObject {
     /// Forces observing screens to cross midnight/time-zone boundaries even without new ring data.
     @Published private(set) var calendarRevision: UInt64 = 0
 
+    /// Bumped whenever the sleep decoding changes in a way that invalidates stored blocks. Version 3
+    /// is the PulseLoop-exact stage mapping (0x28 light / 0x63 deep / 0x00 awake, everything else
+    /// discarded); versions below it are ignored and re-synced from the ring.
+    static let sleepSchemaVersion = 3
+    /// PulseLoop's `Calendar.sleepEveningBoundaryHour`.
+    static let sleepEveningBoundaryHour = 19
+
     private let perSeriesCap = 5000
     /// Sleep is capped by age, not row count — see `addSleepFrame`. Covers the Year range.
     private let sleepRetentionDays: TimeInterval = 400
@@ -189,14 +177,10 @@ final class RingStore: ObservableObject {
     /// Blocks grouped into continuous sleep sessions. The old calendar-only grouping split a single
     /// night at 4 AM; session clustering keeps every contiguous block from bedtime through wake-up.
     var sleepNights: [SleepNight] {
-        // Older Tide builds treated every sample as five minutes. Keep those nights visible until
-        // they are re-synced, then prefer the corrected one-minute blocks for that night.
-        let correctedNightKeys = Set(sleepBlocks.compactMap { block in
-            block.sampleSchemaVersion == 2 ? nightKey(for: block.start) : nil
-        })
-        let visibleBlocks = sleepBlocks.filter { block in
-            block.sampleSchemaVersion == 2 || !correctedNightKeys.contains(nightKey(for: block.start))
-        }
+        // Only blocks decoded by the current stage mapping. Earlier builds classified every
+        // unrecognized 0x11 byte as light or deep sleep, so their stored blocks contain hours of
+        // padding recorded as sleep and cannot be repaired — only discarded and re-synced.
+        let visibleBlocks = sleepBlocks.filter { $0.sampleSchemaVersion == Self.sleepSchemaVersion }
         let sorted = visibleBlocks.sorted { $0.start < $1.start }
         var sessions: [[SleepBlock]] = []
         let maximumSessionGap: TimeInterval = 90 * 60
@@ -296,19 +280,25 @@ final class RingStore: ObservableObject {
 
     /// Expand a `0x11` sleep frame (start + one stage per one-minute sample) into blocks, deduped by
     /// start time so a re-synced night doesn't duplicate.
+    ///
+    /// `.unknown` samples are dropped rather than stored. They are the frame's padding — not sleep,
+    /// not wakefulness, and not even a gap the ring was awake for. Keeping them would drag the
+    /// session's start and end out to cover the padding, which is exactly how a 1 AM–8 AM night was
+    /// being shown as 9 PM–8 AM.
     func addSleepFrame(start: Date, stages: [SleepStage]) {
         var changed = false
-        for (i, stage) in stages.enumerated() {
+        for (i, stage) in stages.enumerated() where stage != .unknown {
             let blockStart = start.addingTimeInterval(TimeInterval(i * 60))
             let exists = sleepBlocks.contains {
-                $0.sampleSchemaVersion == 2 && abs($0.start.timeIntervalSince(blockStart)) < 30
+                $0.sampleSchemaVersion == Self.sleepSchemaVersion
+                    && abs($0.start.timeIntervalSince(blockStart)) < 30
             }
             if exists { continue }
             sleepBlocks.append(SleepBlock(
                 stageRaw: stage.rawValue,
                 start: blockStart,
                 minutes: 1,
-                sampleSchemaVersion: 2
+                sampleSchemaVersion: Self.sleepSchemaVersion
             ))
             changed = true
         }
@@ -408,12 +398,20 @@ final class RingStore: ObservableObject {
         )
     }
 
-    /// The sleep session that began on the previous local day and completed as "last night."
+    /// The sleep session that completed as "last night."
+    ///
+    /// Nights are keyed to the morning they end on (see `nightKey`), so last night's key is *today*,
+    /// not yesterday. Before 4 AM the current night is still in progress and today has no key yet,
+    /// so we fall back to yesterday's — PulseLoop's `dayReferenceNight` rule
+    /// (PulseServices.swift:596-608).
     func lastNight(forToday now: Date = Date()) -> SleepNight? {
         let today = calendar.startOfDay(for: now)
-        guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else { return nil }
+        let hour = calendar.component(.hour, from: now)
+        let reference = hour < 4
+            ? (calendar.date(byAdding: .day, value: -1, to: today) ?? today)
+            : today
         return sleepNights
-            .filter { calendar.isDate($0.id, inSameDayAs: yesterday) && $0.end <= now }
+            .filter { calendar.isDate($0.id, inSameDayAs: reference) && $0.end <= now }
             .max(by: { $0.end < $1.end })
     }
 
@@ -563,12 +561,18 @@ final class RingStore: ObservableObject {
 
     // MARK: Internal
 
+    /// The waking-morning key for a sleep session, ported from PulseLoop's
+    /// `Calendar.wakingDay(forSleepStart:)` (PulseServices.swift:541-556).
+    ///
+    /// Sleep starting at or after 7 PM belongs to the *next* day's morning — you fall asleep tonight
+    /// and wake tomorrow — so a night crossing midnight lands on the single morning it ends on.
+    /// Anything earlier (small hours, or a daytime nap) stays on the current day. A night is
+    /// therefore keyed to the date you woke up on.
     private func nightKey(for date: Date) -> Date {
         let startOfDay = calendar.startOfDay(for: date)
         let hour = calendar.component(.hour, from: date)
-        // Before 4 AM belongs to the previous night's key.
-        if hour < 4 { return calendar.date(byAdding: .day, value: -1, to: startOfDay) ?? startOfDay }
-        return startOfDay
+        guard hour >= Self.sleepEveningBoundaryHour else { return startOfDay }
+        return calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
     }
 
     private func trim(_ series: inout [RingReading]) {

@@ -12,7 +12,6 @@
 //
 
 import Foundation
-import os
 
 enum RingUUIDs {
     static let service = "000056ff-0000-1000-8000-00805f9b34fb"
@@ -423,27 +422,21 @@ struct RingDecoder {
             | UInt32(bytes[offset + 3]) << 24
     }
 
-    /// Map a 0x11 stage byte. The verified codes for this ring family are `0x00` awake, `0x28`
-    /// light, `0x63` deep — see PulseLoop `RingProtocol.swift:385-392` and `docs/hardware/jring.md`,
-    /// which also records that this hardware has no REM detection at all.
+    /// Map a 0x11 stage byte. Ported verbatim from PulseLoop `RingProtocol.swift:385-392`.
     ///
-    /// The previous ranges (`0x01...0x4f` light, `0x50...0xff` deep) covered all 256 values, so
-    /// padding or corrupt bytes silently became sleep and inflated the night's totals. Unrecognized
-    /// bytes are now logged, but still fall back to the old magnitude heuristic rather than being
-    /// dropped: if this ring's firmware ever uses different codes, sleep degrades instead of
-    /// vanishing. Once the log stays quiet across a few nights the fallback can go.
+    /// Exactly three codes are real: `0x28` light, `0x63` deep, `0x00` awake. Everything else is
+    /// `.unknown` and is excluded from the hypnogram and the stage totals — a 0x11 frame's trailing
+    /// bytes are padding, not sleep. Any mapping that classifies unrecognized bytes as light or deep
+    /// (whether by magnitude or by range) turns that padding into recorded sleep and stretches the
+    /// night backwards from its real bedtime.
     private func stage(_ byte: UInt8) -> SleepStage {
         switch byte {
-        case 0x00: return .awake
         case 0x28: return .light
         case 0x63: return .deep
-        default:
-            Self.protocolLog.debug("Unrecognized 0x11 sleep stage byte 0x\(String(format: "%02x", byte), privacy: .public)")
-            return byte < 0x50 ? .light : .deep
+        case 0x00: return .awake
+        default: return .unknown
         }
     }
-
-    private static let protocolLog = Logger(subsystem: "com.aahish.ringmvp", category: "RingProtocol")
 }
 
 struct RingEncoder {

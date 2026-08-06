@@ -14,7 +14,6 @@
 //
 
 import Combine
-import UIKit
 @preconcurrency import CoreBluetooth
 import Foundation
 
@@ -176,16 +175,6 @@ final class RingManager: NSObject, ObservableObject {
     private let watchdogInterval: UInt64 = 15_000_000_000
     private let linkStaleSeconds: TimeInterval = 60
     private var watchdogTicks = 0
-    private var syncBackgroundTask: UIBackgroundTaskIdentifier = .invalid
-
-    private static let centralRestoreIdentifier = "com.aahish.ringmvp.central"
-
-    /// Whether Info.plist actually declares `bluetooth-central`. State restoration is only legal
-    /// when it does; requesting it otherwise throws before `init` returns.
-    private static var hasBluetoothCentralBackgroundMode: Bool {
-        let modes = Bundle.main.object(forInfoDictionaryKey: "UIBackgroundModes") as? [String]
-        return modes?.contains("bluetooth-central") ?? false
-    }
 
     private static let lastPeripheralKey = "ring.lastPeripheralIdentifier"
     private static let settingsKey = "ring.settings"
@@ -195,22 +184,12 @@ final class RingManager: NSObject, ObservableObject {
         settings = Self.loadSettings()
         lastSyncAt = UserDefaults.standard.object(forKey: Self.lastSyncKey) as? Date
         super.init()
-        // The restore identifier (paired with the `bluetooth-central` background mode) is what lets
-        // iOS relaunch Tide when the ring reconnects while the app is backgrounded. Without it the
-        // ring could only ever sync with the app on screen, which is why the morning sleep summary
-        // never arrived until the user opened it.
-        //
-        // Passing the identifier *without* that background mode is a hard launch crash
-        // (NSInternalInconsistencyException), not a degraded feature — and the mode lives in
-        // Info.plist, which no compiler checks. So confirm it is really there at runtime and fall
-        // back to a foreground-only manager if it is not.
-        if Self.hasBluetoothCentralBackgroundMode {
-            central = CBCentralManager(delegate: self, queue: nil, options: [
-                CBCentralManagerOptionRestoreIdentifierKey: Self.centralRestoreIdentifier
-            ])
-        } else {
-            central = CBCentralManager(delegate: self, queue: nil)
-        }
+        // Foreground-only Bluetooth, deliberately. Background state restoration was tried and
+        // removed: iOS suspends the app between BLE wake-ups, which stops the 15-second keepalive,
+        // so the ring idle-times-out, the pending connection immediately re-links, and the ring
+        // re-runs its whole startup sequence — a reconnect loop that flashed the ring's LED and
+        // drained both batteries around the clock. The ring syncs when the app is opened.
+        central = CBCentralManager(delegate: self, queue: nil)
         updateAuthorization()
         log(.info, "Ring manager initialized.")
     }
@@ -501,25 +480,9 @@ final class RingManager: NSObject, ObservableObject {
         syncRecordCount = 0
         syncResultMessage = nil
         syncProgress = "Syncing ring history…"
-        beginSyncBackgroundTask()
         armHistorySyncTimeout()
     }
 
-    /// A full history sync is 30+ packets and easily outlives the few seconds iOS grants a
-    /// background BLE wake. Hold an expiring background assertion so the stream can finish and the
-    /// sleep summary can be raised before we are suspended again.
-    private func beginSyncBackgroundTask() {
-        guard syncBackgroundTask == .invalid else { return }
-        syncBackgroundTask = UIApplication.shared.beginBackgroundTask(withName: "ring.historySync") { [weak self] in
-            MainActor.assumeIsolated { self?.endSyncBackgroundTask() }
-        }
-    }
-
-    private func endSyncBackgroundTask() {
-        guard syncBackgroundTask != .invalid else { return }
-        UIApplication.shared.endBackgroundTask(syncBackgroundTask)
-        syncBackgroundTask = .invalid
-    }
 
     private func noteHistoryRecord(stage: String? = nil) {
         guard syncProgress != nil else { return }
@@ -540,14 +503,12 @@ final class RingManager: NSObject, ObservableObject {
     private func finishHistorySync(didReceiveEndMarker: Bool, interrupted: Bool) {
         guard syncProgress != nil else {
             if didReceiveEndMarker { store.freezeTodayReadiness(settings: settings) }
-            endSyncBackgroundTask()
             return
         }
 
         syncTimeoutTask?.cancel()
         syncTimeoutTask = nil
         syncProgress = nil
-        defer { endSyncBackgroundTask() }
 
         if interrupted {
             syncResultMessage = "Sync interrupted — reconnect your ring and try again."
@@ -565,7 +526,6 @@ final class RingManager: NSObject, ObservableObject {
 
             // Freeze Tide's simple wellness score once the completed history batch is available.
             store.freezeTodayReadiness(settings: settings)
-            TideNotificationService.shared.refreshMorningSleepSummary(store: store, settings: settings)
             if let activity = store.todayActivityRecord() {
                 TideNotificationService.shared.evaluateActivity(activity, settings: settings)
             }
@@ -946,37 +906,6 @@ extension RingManager: CBCentralManagerDelegate {
                 discovered.append(ring)
             }
             discovered.sort { ($0.isLikelyRing ? 0 : 1, -$0.rssi) < ($1.isLikelyRing ? 0 : 1, -$1.rssi) }
-        }
-    }
-
-    /// Called before `centralManagerDidUpdateState` when iOS relaunches Tide to hand back a
-    /// Bluetooth session it was holding on our behalf — typically the ring reconnecting in the
-    /// morning while the app is backgrounded. Re-adopt the peripheral so the normal connect and
-    /// history-sync path can run and raise the sleep summary without the user opening the app.
-    nonisolated func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
-        MainActor.assumeIsolated {
-            let restored = (dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral]) ?? []
-            guard let peripheral = restored.first else {
-                log(.info, "BLE state restored with no peripherals.")
-                return
-            }
-            self.peripheral = peripheral
-            peripheral.delegate = self
-            connectedDeviceName = peripheral.name
-            autoReconnect = true
-
-            switch peripheral.state {
-            case .connected:
-                connectionState = .connected
-                peripheral.discoverServices(nil)
-            case .connecting:
-                connectionState = .connecting
-            default:
-                // Re-arm the pending connection; iOS wakes us again when the ring is back in range.
-                connectionState = .reconnecting
-                central.connect(peripheral, options: nil)
-            }
-            log(.info, "Restored BLE state: \(peripheral.name ?? "ring") (\(peripheral.state.rawValue)).")
         }
     }
 

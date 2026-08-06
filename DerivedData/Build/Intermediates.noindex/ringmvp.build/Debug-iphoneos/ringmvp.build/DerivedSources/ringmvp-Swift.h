@@ -377,7 +377,18 @@ SWIFT_CLASS("_TtC7ringmvp11RingManager")
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
+@class CBCentralManager;
 @class CBPeripheral;
+@class NSString;
+@class NSNumber;
+@interface RingManager (SWIFT_EXTENSION(ringmvp)) <CBCentralManagerDelegate>
+- (void)centralManagerDidUpdateState:(CBCentralManager * _Nonnull)central;
+- (void)centralManager:(CBCentralManager * _Nonnull)central didDiscoverPeripheral:(CBPeripheral * _Nonnull)peripheral advertisementData:(NSDictionary<NSString *, id> * _Nonnull)advertisementData RSSI:(NSNumber * _Nonnull)RSSI;
+- (void)centralManager:(CBCentralManager * _Nonnull)central didConnectPeripheral:(CBPeripheral * _Nonnull)peripheral;
+- (void)centralManager:(CBCentralManager * _Nonnull)central didFailToConnectPeripheral:(CBPeripheral * _Nonnull)peripheral error:(NSError * _Nullable)error;
+- (void)centralManager:(CBCentralManager * _Nonnull)central didDisconnectPeripheral:(CBPeripheral * _Nonnull)peripheral error:(NSError * _Nullable)error;
+@end
+
 @class CBService;
 @class CBCharacteristic;
 @interface RingManager (SWIFT_EXTENSION(ringmvp)) <CBPeripheralDelegate>
@@ -386,22 +397,6 @@ SWIFT_CLASS("_TtC7ringmvp11RingManager")
 - (void)peripheral:(CBPeripheral * _Nonnull)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic * _Nonnull)characteristic error:(NSError * _Nullable)error;
 - (void)peripheral:(CBPeripheral * _Nonnull)peripheral didUpdateValueForCharacteristic:(CBCharacteristic * _Nonnull)characteristic error:(NSError * _Nullable)error;
 - (void)peripheral:(CBPeripheral * _Nonnull)peripheral didWriteValueForCharacteristic:(CBCharacteristic * _Nonnull)characteristic error:(NSError * _Nullable)error;
-@end
-
-@class CBCentralManager;
-@class NSString;
-@class NSNumber;
-@interface RingManager (SWIFT_EXTENSION(ringmvp)) <CBCentralManagerDelegate>
-- (void)centralManagerDidUpdateState:(CBCentralManager * _Nonnull)central;
-- (void)centralManager:(CBCentralManager * _Nonnull)central didDiscoverPeripheral:(CBPeripheral * _Nonnull)peripheral advertisementData:(NSDictionary<NSString *, id> * _Nonnull)advertisementData RSSI:(NSNumber * _Nonnull)RSSI;
-/// Called before <code>centralManagerDidUpdateState</code> when iOS relaunches Tide to hand back a
-/// Bluetooth session it was holding on our behalf — typically the ring reconnecting in the
-/// morning while the app is backgrounded. Re-adopt the peripheral so the normal connect and
-/// history-sync path can run and raise the sleep summary without the user opening the app.
-- (void)centralManager:(CBCentralManager * _Nonnull)central willRestoreState:(NSDictionary<NSString *, id> * _Nonnull)dict;
-- (void)centralManager:(CBCentralManager * _Nonnull)central didConnectPeripheral:(CBPeripheral * _Nonnull)peripheral;
-- (void)centralManager:(CBCentralManager * _Nonnull)central didFailToConnectPeripheral:(CBPeripheral * _Nonnull)peripheral error:(NSError * _Nullable)error;
-- (void)centralManager:(CBCentralManager * _Nonnull)central didDisconnectPeripheral:(CBPeripheral * _Nonnull)peripheral error:(NSError * _Nullable)error;
 @end
 
 @class AVCapturePhotoOutput;

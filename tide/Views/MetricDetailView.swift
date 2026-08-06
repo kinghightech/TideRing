@@ -576,12 +576,7 @@ private struct SleepDetail: View {
                 }
                 .padding()
             }
-            stageCards(
-                deep: night.deepMinutes,
-                light: night.lightMinutes,
-                awake: night.hasAwakeSignal ? night.awakeMinutes : nil,
-                unmeasured: night.unmeasuredMinutes
-            )
+            stageCards(deep: night.deepMinutes, light: night.lightMinutes, awake: night.awakeMinutes)
             WhatThisMeansCard(text: MetricReference.explainer(for: .sleep))
         } else {
             noData
@@ -597,11 +592,7 @@ private struct SleepDetail: View {
             let avgScore = Int((Double(nights.reduce(0) { $0 + SleepScore.calculate($1).score }) / Double(nights.count)).rounded())
             let deep = nights.reduce(0) { $0 + $1.deepMinutes } / nights.count
             let light = nights.reduce(0) { $0 + $1.lightMinutes } / nights.count
-            let unmeasured = nights.reduce(0) { $0 + $1.unmeasuredMinutes } / nights.count
-            // "—" only when not a single night in the window reported wakefulness.
-            let awake = nights.contains(where: \.hasAwakeSignal)
-                ? nights.reduce(0) { $0 + $1.awakeMinutes } / nights.count
-                : nil
+            let awake = nights.reduce(0) { $0 + $1.awakeMinutes } / nights.count
             SleepHeroCard(
                 label: range.heroLabel,
                 duration: Fmt.duration(minutes: avgDuration),
@@ -617,23 +608,22 @@ private struct SleepDetail: View {
                 }
                 .padding()
             }
-            stageCards(prefix: "Avg ", deep: deep, light: light, awake: awake, unmeasured: unmeasured)
+            stageCards(prefix: "Avg ", deep: deep, light: light, awake: awake)
             WhatThisMeansCard(text: MetricReference.explainer(for: .sleep))
         } else {
             noData
         }
     }
 
-    /// Deep + Light + Awake + Unmeasured always sums to the headline's time in bed. There is no REM
-    /// tile: this ring reports light/deep/awake only, so a REM figure could never be anything but 0.
-    /// `awake == nil` means the ring gave no wakefulness signal at all — shown as "—", not "0h 0m".
-    private func stageCards(prefix: String = "", deep: Int, light: Int, awake: Int?, unmeasured: Int) -> some View {
+    /// Deep / Light / Awake — the three stages this ring reports, matching PulseLoop's
+    /// `SleepStageSummaryCardsView` (SleepView.swift:89-93). No REM (the hardware has none) and no
+    /// Unmeasured (padding samples are discarded at decode now, so there is nothing to account for).
+    private func stageCards(prefix: String = "", deep: Int, light: Int, awake: Int) -> some View {
         GlassCard {
             HStack(spacing: 0) {
                 stage("\(prefix)Deep", Fmt.duration(minutes: deep), .indigo)
                 stage("\(prefix)Light", Fmt.duration(minutes: light), .blue.opacity(0.7))
-                stage("\(prefix)Awake", awake.map { Fmt.duration(minutes: $0) } ?? "—", .orange)
-                stage("\(prefix)Unmeasured", Fmt.duration(minutes: unmeasured), .gray)
+                stage("\(prefix)Awake", Fmt.duration(minutes: awake), .orange)
             }
             .padding(.vertical, 14).padding(.horizontal, 6)
         }

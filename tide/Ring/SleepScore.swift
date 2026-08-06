@@ -88,7 +88,19 @@ enum SleepScore {
         let deep = Double(max(0, night.deepMinutes))
         let light = Double(max(0, night.lightMinutes))
         let awake = Double(max(0, night.awakeMinutes))
-        let hasAwakeSignal = night.hasAwakeSignal
+        // PulseLoop's rule verbatim (SleepInsights.swift:73-87): only stages the ring actually
+        // reports count as coverage, and a night that is ≥95% covered is treated as genuinely
+        // gap-free rather than silently awake.
+        let coveredStageMin = night.blocks.reduce(0.0) { sum, block in
+            switch block.stage {
+            case .deep, .light, .awake: return sum + Double(max(0, block.minutes))
+            default: return sum
+            }
+        }
+        let hasAwakeSignal =
+            night.blocks.contains { $0.stage == .awake } ||
+            awake > 0 ||
+            (total > 0 && coveredStageMin >= total * 0.95)
 
         let totalHours = total / 60
         let deepPct = total > 0 ? (deep / total) * 100 : 0

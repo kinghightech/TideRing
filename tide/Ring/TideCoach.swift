@@ -45,14 +45,7 @@ enum TideHealthContext {
             lines.append("- Last night: \(Fmt.duration(minutes: night.timeInBedMinutes)) in bed, \(night.start.formatted(date: .omitted, time: .shortened)) to \(night.end.formatted(date: .omitted, time: .shortened))")
             lines.append("- That is \(percent(hours, of: settings.sleepGoalHours)) of their \(Fmt.number(settings.sleepGoalHours))-hour sleep goal")
             lines.append("- Deep \(Fmt.duration(minutes: night.deepMinutes)), light \(Fmt.duration(minutes: night.lightMinutes))")
-            if night.hasAwakeSignal {
-                lines.append("- Awake \(Fmt.duration(minutes: night.awakeMinutes))")
-            } else {
-                lines.append("- Awake time: not reported by the ring for this night")
-            }
-            if night.unmeasuredMinutes > 0 {
-                lines.append("- \(Fmt.duration(minutes: night.unmeasuredMinutes)) unmeasured (the ring sent no data for those minutes)")
-            }
+            lines.append("- Awake \(Fmt.duration(minutes: night.awakeMinutes))")
             lines.append("- Sleep quality score: \(result.score)/100 (\(result.label.rawValue))")
         } else {
             lines.append("- No sleep recorded for last night")
@@ -425,8 +418,6 @@ final class TideCoach: ObservableObject {
         alarming, tell them to contact a doctor or emergency services. Do not try to troubleshoot it.
         - This ring cannot detect REM sleep and often reports no awake time. Never discuss REM, and \
         never conclude they slept undisturbed just because awake time reads zero or is missing.
-        - Unmeasured sleep minutes mean the ring stopped reporting. That is a gap in the data, not \
-        time spent awake and not time spent asleep.
         """
     }
 
