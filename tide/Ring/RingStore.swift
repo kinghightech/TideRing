@@ -64,9 +64,37 @@ struct SleepNight: Identifiable {
     func minutes(_ stage: SleepStage) -> Int { blocks.filter { $0.stage == stage }.reduce(0) { $0 + $1.minutes } }
     var lightMinutes: Int { minutes(.light) }
     var deepMinutes: Int { minutes(.deep) }
+    /// This ring family reports light/deep/awake only — never REM. Kept so legacy snapshots and
+    /// preview seeds that contain "rem" blocks still add up. See `RingProtocol.stage(_:)`.
     var remMinutes: Int { minutes(.rem) }
     var awakeMinutes: Int { minutes(.awake) }
+    /// Measured sleep: only minutes the ring actually reported as a sleep stage. This is the input
+    /// to the Home readiness score (`TideReadinessEngine.sleepScore`) — do not change its meaning.
     var asleepMinutes: Int { lightMinutes + deepMinutes + remMinutes }
+
+    /// Time in bed: first block start → last block end, gaps included. This is what you experience
+    /// as "I slept 2 AM–10 AM", so it is what the Sleep screen headlines. Mirrors PulseLoop's
+    /// `session.totalMinutes` (PulseEventBus.swift:456), which is also a pure span.
+    var timeInBedMinutes: Int { max(0, Int(end.timeIntervalSince(start) / 60)) }
+
+    /// Minutes inside the session the ring never reported a stage for — dropped packets, or the
+    /// ring off the finger. Defined as the remainder so that
+    /// `deep + light + awake + unmeasured == timeInBedMinutes` always holds and the Sleep screen's
+    /// four tiles reconcile with its headline.
+    var unmeasuredMinutes: Int {
+        max(0, timeInBedMinutes - deepMinutes - lightMinutes - awakeMinutes)
+    }
+
+    /// Whether the ring gave any evidence about wakefulness. False means "we don't know", which the
+    /// UI must render as "—" rather than a confident "0h 0m". Ported from PulseLoop's
+    /// `SleepInsights.hasAwakeSignal` (SleepInsights.swift:79-87); its 95 % coverage clause treats a
+    /// night that is almost fully staged as genuinely gap-free rather than silently awake.
+    var hasAwakeSignal: Bool {
+        if awakeMinutes > 0 || blocks.contains(where: { $0.stage == .awake }) { return true }
+        guard timeInBedMinutes > 0 else { return false }
+        let staged = deepMinutes + lightMinutes + awakeMinutes
+        return Double(staged) >= Double(timeInBedMinutes) * 0.95
+    }
 }
 
 /// A per-day cumulative activity snapshot (steps/distance/calories).
@@ -138,6 +166,8 @@ final class RingStore: ObservableObject {
     @Published private(set) var calendarRevision: UInt64 = 0
 
     private let perSeriesCap = 5000
+    /// Sleep is capped by age, not row count — see `addSleepFrame`. Covers the Year range.
+    private let sleepRetentionDays: TimeInterval = 400
     private let fileURL: URL
     /// Serial writes preserve mutation order when a sync emits many packets in quick succession.
     private let saveQueue = DispatchQueue(label: "com.tide.ring-store-writer", qos: .utility)
@@ -182,12 +212,25 @@ final class RingStore: ObservableObject {
             sessions.append([block])
         }
 
-        // Frames for the same night can arrive in separate history packets. Merge sessions that map
-        // to the same local night key without ever summing duplicate blocks (ingest already dedupes).
+        // Assign each session to a night key by the time it *started*, so a session running across
+        // 4 AM stays in one piece.
+        //
+        // Two sessions landing on the same key are, by the clustering above, more than 90 minutes
+        // apart — a daytime nap and that evening's sleep, not one night split across history
+        // packets. Concatenating them (which this used to do) produced a single night running from
+        // the nap's first minute to the next morning's wake-up: a 26-hour "time in bed" with the
+        // whole waking day counted as unmeasured. Keep whichever session holds more recorded sleep
+        // and drop the other, so a night is always one real sleep.
         var groups: [Date: [SleepBlock]] = [:]
         for session in sessions where !session.isEmpty {
             let key = nightKey(for: session[0].start)
-            groups[key, default: []].append(contentsOf: session)
+            guard let existing = groups[key] else {
+                groups[key] = session
+                continue
+            }
+            let existingMinutes = existing.reduce(0) { $0 + $1.minutes }
+            let candidateMinutes = session.reduce(0) { $0 + $1.minutes }
+            if candidateMinutes > existingMinutes { groups[key] = session }
         }
         return groups.map { SleepNight(id: $0.key, blocks: $0.value.sorted { $0.start < $1.start }) }
             .sorted { $0.id < $1.id }
@@ -271,7 +314,11 @@ final class RingStore: ObservableObject {
         }
         if changed {
             sleepBlocks.sort { $0.start < $1.start }
-            if sleepBlocks.count > perSeriesCap { sleepBlocks.removeFirst(sleepBlocks.count - perSeriesCap) }
+            // Sleep is stored one block per minute, so a single night is ~480 blocks. A 5000-row cap
+            // would silently evict everything older than ~10 nights and leave the Month/Year ranges
+            // empty. Trim by age instead, which is what those ranges actually need.
+            let cutoff = Date().addingTimeInterval(-sleepRetentionDays * 24 * 3600)
+            sleepBlocks.removeAll { $0.start < cutoff }
             save()
         }
     }

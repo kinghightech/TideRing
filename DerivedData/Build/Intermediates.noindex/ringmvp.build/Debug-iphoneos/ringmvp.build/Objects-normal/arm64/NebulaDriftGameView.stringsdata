@@ -1,0 +1,168 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/NebulaDriftGameView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "NEBULA DRIFT",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 757
+        }
+      },
+      {
+        "comment": "",
+        "key": "SECTOR %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 966
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 992
+        }
+      },
+      {
+        "comment": "",
+        "key": "DISTANCE: %lldm",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1016
+        }
+      },
+      {
+        "comment": "",
+        "key": "BEST: %lldm",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1021
+        }
+      },
+      {
+        "comment": "",
+        "key": "TETHERED — TAP TO SLINGSHOT",
+        "location": {
+          "startingColumn": 57,
+          "startingLine": 1037
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP RING TO TETHER",
+        "location": {
+          "startingColumn": 91,
+          "startingLine": 1037
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEBULA DRIFT",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1057
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap the ring to attach a gravity tether to star cores. Slingshot around black holes, dodge asteroids, and reach the wormhole portal!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1062
+        }
+      },
+      {
+        "comment": "",
+        "key": "LAUNCH PROBE",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1071
+        }
+      },
+      {
+        "comment": "",
+        "key": "PROBE DESTROYED",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1089
+        }
+      },
+      {
+        "comment": "",
+        "key": "DISTANCE REACHED: %lldm",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1093
+        }
+      },
+      {
+        "comment": "",
+        "key": "RELAUNCH PROBE",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1100
+        }
+      },
+      {
+        "comment": "",
+        "key": "SECTOR %lld CLEAR!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1117
+        }
+      },
+      {
+        "comment": "",
+        "key": "WORMHOLE WARP READY",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1121
+        }
+      },
+      {
+        "comment": "",
+        "key": "WARP TO SECTOR %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1128
+        }
+      },
+      {
+        "comment": "",
+        "key": "HANGAR UPGRADES",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1147
+        }
+      },
+      {
+        "comment": "",
+        "key": "SHIP COLOR SKINS",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1166
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level %lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1217
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1227
+        }
+      }
+    ]
+  },
+  "version": 1
+}

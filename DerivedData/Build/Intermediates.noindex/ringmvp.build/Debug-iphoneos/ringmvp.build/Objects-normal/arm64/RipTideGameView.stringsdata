@@ -1,0 +1,216 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/RipTideGameView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "RIPTIDE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1047
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 1: Calm Waters",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1299
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 2: Riptide Surge",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1300
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 3: Abyssal Mind",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1301
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 4: Tsunami Chaos (EVIL)",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1302
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 5: Maelstrom Mirage",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1303
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 6: Vortex Ascension",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1304
+        }
+      },
+      {
+        "comment": "",
+        "key": "Level 7: NEPTUNE'S WRATH",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1305
+        }
+      },
+      {
+        "comment": "",
+        "key": "L%lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1308
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ring Active",
+        "location": {
+          "startingColumn": 66,
+          "startingLine": 1335
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap Screen",
+        "location": {
+          "startingColumn": 82,
+          "startingLine": 1335
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lldx COMBO",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1376
+        }
+      },
+      {
+        "comment": "",
+        "key": "SCORE: %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1363
+        }
+      },
+      {
+        "comment": "",
+        "key": "BEST: %lld",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1367
+        }
+      },
+      {
+        "comment": "",
+        "key": "RIPTIDE",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1406
+        }
+      },
+      {
+        "comment": "",
+        "key": "Blue Water Orb & White Moon Orb orbit each other",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1420
+        }
+      },
+      {
+        "comment": "",
+        "key": "1 Ring Press per beat — missing resets level!",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1426
+        }
+      },
+      {
+        "comment": "",
+        "key": "START RIPTIDE",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1438
+        }
+      },
+      {
+        "comment": "",
+        "key": "ORBS EXPLODED!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1456
+        }
+      },
+      {
+        "comment": "",
+        "key": "Zero checkpoints. One mistake restarts the song.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1464
+        }
+      },
+      {
+        "comment": "",
+        "key": "TRY AGAIN",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1471
+        }
+      },
+      {
+        "comment": "",
+        "key": "RIPTIDE CONQUERED!",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1488
+        }
+      },
+      {
+        "comment": "",
+        "key": "SCORE: %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1493
+        }
+      },
+      {
+        "comment": "",
+        "key": "MAX COMBO: %lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1496
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEXT LEVEL",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1507
+        }
+      },
+      {
+        "comment": "",
+        "key": "REPLAY",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1518
+        }
+      }
+    ]
+  },
+  "version": 1
+}

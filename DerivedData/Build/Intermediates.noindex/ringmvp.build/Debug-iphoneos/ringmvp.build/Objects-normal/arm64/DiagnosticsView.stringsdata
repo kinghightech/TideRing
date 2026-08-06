@@ -1,0 +1,32 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/DiagnosticsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Diagnostics",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "Clear",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 24
+        }
+      },
+      {
+        "comment": "",
+        "key": "Protocol activity will appear here.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 47
+        }
+      }
+    ]
+  },
+  "version": 1
+}

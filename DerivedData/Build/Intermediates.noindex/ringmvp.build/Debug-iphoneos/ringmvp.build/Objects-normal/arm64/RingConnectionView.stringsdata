@@ -1,0 +1,104 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/RingConnectionView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Bluetooth %@ · %@",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 65
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bound to ring",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 68
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld%%",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 61
+        }
+      },
+      {
+        "comment": "",
+        "key": "Last history sync",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 86
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ring name",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 118
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tide Ring",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 120
+        }
+      },
+      {
+        "comment": "",
+        "key": "Scanning…",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tap Scan to find your ring.",
+        "location": {
+          "startingColumn": 77,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "Nearby Devices",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 157
+        }
+      },
+      {
+        "comment": "",
+        "key": "Stop",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 160
+        }
+      },
+      {
+        "comment": "",
+        "key": "Scan",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 162
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@RSSI %lld",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 181
+        }
+      }
+    ]
+  },
+  "version": 1
+}

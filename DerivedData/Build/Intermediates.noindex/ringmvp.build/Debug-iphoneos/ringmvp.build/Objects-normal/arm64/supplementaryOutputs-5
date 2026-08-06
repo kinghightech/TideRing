@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Views/MetricDetailView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricDetailView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricDetailView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricDetailView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricDetailView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricDetailView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/MetricReference.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricReference.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricReference.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricReference.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricReference.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/MetricReference.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/NebulaDriftGameView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/NebulaDriftGameView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/NebulaDriftGameView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/NebulaDriftGameView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/NebulaDriftGameView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/NebulaDriftGameView.swiftdeps"
+  }
+}

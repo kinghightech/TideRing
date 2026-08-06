@@ -1,0 +1,88 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/CreditsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Credits",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ring Protocol",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 13
+        }
+      },
+      {
+        "comment": "",
+        "key": "License",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "PulseLoop",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 15
+        }
+      },
+      {
+        "comment": "",
+        "key": "by Saksham Bhutani",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 17
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tide's JRing Bluetooth pairing, binding, and sensor protocol is adapted from the PulseLoop iOS project, which is verified working on this ring hardware.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 20
+        }
+      },
+      {
+        "comment": "",
+        "key": "github.com/saksham2001/PulseLoopiOS",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 22
+        }
+      },
+      {
+        "comment": "",
+        "key": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "The adapted protocol code is used under the CC BY 4.0 license. You are free to share and adapt the material for any purpose, provided appropriate credit is given to the original author, Saksham Bhutani.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 33
+        }
+      },
+      {
+        "comment": "",
+        "key": "creativecommons.org/licenses/by/4.0",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 36
+        }
+      }
+    ]
+  },
+  "version": 1
+}

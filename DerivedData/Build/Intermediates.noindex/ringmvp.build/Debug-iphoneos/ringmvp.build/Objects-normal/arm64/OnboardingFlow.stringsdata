@@ -1,0 +1,216 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/Onboarding/OnboardingFlow.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Learn More",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 167
+        }
+      },
+      {
+        "comment": "",
+        "key": "What Tide does",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 192
+        }
+      },
+      {
+        "comment": "",
+        "key": "Let's connect\nyour ring.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 240
+        }
+      },
+      {
+        "comment": "",
+        "key": "Make sure your ring is charged and nearby.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 244
+        }
+      },
+      {
+        "comment": "",
+        "key": "Smart ring",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 295
+        }
+      },
+      {
+        "comment": "",
+        "key": "RSSI %lld",
+        "location": {
+          "startingColumn": 71,
+          "startingLine": 295
+        }
+      },
+      {
+        "comment": "",
+        "key": "Aahish's Tide Ring",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 376
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 374
+        }
+      },
+      {
+        "comment": "",
+        "key": "Name your ring.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 363
+        }
+      },
+      {
+        "comment": "",
+        "key": "Give it a name that feels like yours. You can change it later.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 366
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connected",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 394
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your name",
+        "location": {
+          "startingColumn": 78,
+          "startingLine": 445
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 445
+        }
+      },
+      {
+        "comment": "",
+        "key": "What's your name?",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 434
+        }
+      },
+      {
+        "comment": "",
+        "key": "So Tide can make your summaries feel like yours.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 438
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sex",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 456
+        }
+      },
+      {
+        "comment": "",
+        "key": "Male",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 457
+        }
+      },
+      {
+        "comment": "",
+        "key": "Female",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 458
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 466
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 463
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld cm",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 470
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 469
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld kg",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 474
+        }
+      },
+      {
+        "comment": "",
+        "key": "",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 473
+        }
+      },
+      {
+        "comment": "",
+        "key": "Set your goals.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 511
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start with these targets — change them anytime in Settings.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 514
+        }
+      }
+    ]
+  },
+  "version": 1
+}

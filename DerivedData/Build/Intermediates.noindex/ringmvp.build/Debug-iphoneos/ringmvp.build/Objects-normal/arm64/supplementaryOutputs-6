@@ -1,0 +1,23 @@
+{
+  "/Users/aahishabbani/Projects/tide/tide/Views/PrivacyView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/PrivacyView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/PrivacyView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/PrivacyView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/PrivacyView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/PrivacyView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/RingConnectionView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RingConnectionView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RingConnectionView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RingConnectionView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RingConnectionView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RingConnectionView.swiftdeps"
+  },
+  "/Users/aahishabbani/Projects/tide/tide/Views/RipTideGameView.swift" : {
+    "const-values" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RipTideGameView.swiftconstvalues",
+    "dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RipTideGameView.d",
+    "diagnostics" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RipTideGameView.dia",
+    "object" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RipTideGameView.o",
+    "swift-dependencies" : "/Users/aahishabbani/Projects/tide/DerivedData/Build/Intermediates.noindex/ringmvp.build/Debug-iphoneos/ringmvp.build/Objects-normal/arm64/RipTideGameView.swiftdeps"
+  }
+}

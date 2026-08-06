@@ -1,0 +1,328 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/MetricCharts.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 50
+        }
+      },
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Min",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 42
+        }
+      },
+      {
+        "comment": "",
+        "key": "Max",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 43
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 155
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 157
+        }
+      },
+      {
+        "comment": "",
+        "key": "Value",
+        "location": {
+          "startingColumn": 77,
+          "startingLine": 157
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 139
+        }
+      },
+      {
+        "comment": "",
+        "key": "Value",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "Segment",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 141
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "Value",
+        "location": {
+          "startingColumn": 69,
+          "startingLine": 150
+        }
+      },
+      {
+        "comment": "",
+        "key": "Goal",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 269
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 273
+        }
+      },
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 263
+        }
+      },
+      {
+        "comment": "",
+        "key": "Steps",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 264
+        }
+      },
+      {
+        "comment": "",
+        "key": "Goal",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 334
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 339
+        }
+      },
+      {
+        "comment": "",
+        "key": "Day",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 327
+        }
+      },
+      {
+        "comment": "",
+        "key": "Calories",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 328
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 396
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 380
+        }
+      },
+      {
+        "comment": "",
+        "key": "Systolic",
+        "location": {
+          "startingColumn": 63,
+          "startingLine": 380
+        }
+      },
+      {
+        "comment": "",
+        "key": "Series",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 381
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 384
+        }
+      },
+      {
+        "comment": "",
+        "key": "Systolic",
+        "location": {
+          "startingColumn": 64,
+          "startingLine": 384
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 388
+        }
+      },
+      {
+        "comment": "",
+        "key": "Diastolic",
+        "location": {
+          "startingColumn": 63,
+          "startingLine": 388
+        }
+      },
+      {
+        "comment": "",
+        "key": "Series",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 389
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 392
+        }
+      },
+      {
+        "comment": "",
+        "key": "Diastolic",
+        "location": {
+          "startingColumn": 64,
+          "startingLine": 392
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 492
+        }
+      },
+      {
+        "comment": "",
+        "key": "Start",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 483
+        }
+      },
+      {
+        "comment": "",
+        "key": "End",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 484
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bottom",
+        "location": {
+          "startingColumn": 44,
+          "startingLine": 485
+        }
+      },
+      {
+        "comment": "",
+        "key": "Top",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 486
+        }
+      },
+      {
+        "comment": "",
+        "key": "Goal",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 583
+        }
+      },
+      {
+        "comment": "",
+        "key": "Selected",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 588
+        }
+      },
+      {
+        "comment": "",
+        "key": "Night",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 575
+        }
+      },
+      {
+        "comment": "",
+        "key": "Hours",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 577
+        }
+      }
+    ]
+  },
+  "version": 1
+}

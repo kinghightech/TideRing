@@ -1,0 +1,80 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/PrivacyView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Privacy",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 40
+        }
+      },
+      {
+        "comment": "",
+        "key": "What we store",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 18
+        }
+      },
+      {
+        "comment": "",
+        "key": "What we don't do",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 23
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bluetooth",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 30
+        }
+      },
+      {
+        "comment": "",
+        "key": "Your control",
+        "location": {
+          "startingColumn": 21,
+          "startingLine": 35
+        }
+      },
+      {
+        "comment": "",
+        "key": "Local-only. Nothing leaves your phone.",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 14
+        }
+      },
+      {
+        "comment": "",
+        "key": "Heart rate, blood oxygen, blood pressure, activity, and sleep readings from your ring are saved in this app's private storage on your device.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 19
+        }
+      },
+      {
+        "comment": "",
+        "key": "Bluetooth is used only to connect to your ring and read its measurements. The connection is direct between your phone and the ring.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 31
+        }
+      },
+      {
+        "comment": "",
+        "key": "You can delete all stored readings at any time from the History tab, and unpair the ring with Forget on the Ring tab.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 36
+        }
+      }
+    ]
+  },
+  "version": 1
+}

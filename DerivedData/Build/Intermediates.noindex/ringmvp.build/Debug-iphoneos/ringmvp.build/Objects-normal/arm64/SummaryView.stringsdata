@@ -1,0 +1,80 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/SummaryView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Ready to make today count.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 74
+        }
+      },
+      {
+        "comment": "",
+        "key": "Today's highlights",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 166
+        }
+      },
+      {
+        "comment": "",
+        "key": "View all",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 172
+        }
+      },
+      {
+        "comment": "",
+        "key": "View all vitals",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 200
+        }
+      },
+      {
+        "comment": "",
+        "key": "Heart rate, oxygen, recovery and more",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 203
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tide wellness estimate. This is not a medical score.",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 452
+        }
+      },
+      {
+        "comment": "",
+        "key": "—",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 426
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 426
+        }
+      },
+      {
+        "comment": "",
+        "key": "See insights",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 440
+        }
+      }
+    ]
+  },
+  "version": 1
+}

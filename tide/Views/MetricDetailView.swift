@@ -524,7 +524,7 @@ private struct SleepDetail: View {
     private var windowNights: [SleepNight] {
         let cal = Calendar.current
         let start = cal.date(byAdding: .day, value: -(range.days - 1), to: cal.startOfDay(for: Date())) ?? Date()
-        return store.sleepNights.filter { $0.id >= start && $0.asleepMinutes > 0 }
+        return store.sleepNights.filter { $0.id >= start && $0.timeInBedMinutes > 0 }
     }
 
     var body: some View {
@@ -559,11 +559,12 @@ private struct SleepDetail: View {
     // MARK: Day
 
     @ViewBuilder private var dayView: some View {
-        if let night = store.latestNight, night.asleepMinutes > 0 {
+        if let night = store.latestNight, night.timeInBedMinutes > 0 {
             let result = SleepScore.calculate(night)
             SleepHeroCard(
                 label: range.heroLabel,
-                duration: Fmt.duration(minutes: night.asleepMinutes),
+                // Time in bed, so the headline always matches the start–end range printed beneath it.
+                duration: Fmt.duration(minutes: night.timeInBedMinutes),
                 support: "\(night.start.formatted(.dateTime.hour().minute())) – \(night.end.formatted(.dateTime.hour().minute()))",
                 score: result.score,
                 quality: result.label.rawValue
@@ -575,7 +576,12 @@ private struct SleepDetail: View {
                 }
                 .padding()
             }
-            stageCards(deep: night.deepMinutes, light: night.lightMinutes, rem: night.remMinutes, awake: night.awakeMinutes)
+            stageCards(
+                deep: night.deepMinutes,
+                light: night.lightMinutes,
+                awake: night.hasAwakeSignal ? night.awakeMinutes : nil,
+                unmeasured: night.unmeasuredMinutes
+            )
             WhatThisMeansCard(text: MetricReference.explainer(for: .sleep))
         } else {
             noData
@@ -587,12 +593,15 @@ private struct SleepDetail: View {
     @ViewBuilder private var aggregateView: some View {
         let nights = windowNights
         if nights.count >= 2 {
-            let avgDuration = nights.reduce(0) { $0 + $1.asleepMinutes } / nights.count
+            let avgDuration = nights.reduce(0) { $0 + $1.timeInBedMinutes } / nights.count
             let avgScore = Int((Double(nights.reduce(0) { $0 + SleepScore.calculate($1).score }) / Double(nights.count)).rounded())
             let deep = nights.reduce(0) { $0 + $1.deepMinutes } / nights.count
             let light = nights.reduce(0) { $0 + $1.lightMinutes } / nights.count
-            let rem = nights.reduce(0) { $0 + $1.remMinutes } / nights.count
-            let awake = nights.reduce(0) { $0 + $1.awakeMinutes } / nights.count
+            let unmeasured = nights.reduce(0) { $0 + $1.unmeasuredMinutes } / nights.count
+            // "—" only when not a single night in the window reported wakefulness.
+            let awake = nights.contains(where: \.hasAwakeSignal)
+                ? nights.reduce(0) { $0 + $1.awakeMinutes } / nights.count
+                : nil
             SleepHeroCard(
                 label: range.heroLabel,
                 duration: Fmt.duration(minutes: avgDuration),
@@ -608,28 +617,31 @@ private struct SleepDetail: View {
                 }
                 .padding()
             }
-            stageCards(prefix: "Avg ", deep: deep, light: light, rem: rem, awake: awake)
+            stageCards(prefix: "Avg ", deep: deep, light: light, awake: awake, unmeasured: unmeasured)
             WhatThisMeansCard(text: MetricReference.explainer(for: .sleep))
         } else {
             noData
         }
     }
 
-    private func stageCards(prefix: String = "", deep: Int, light: Int, rem: Int, awake: Int) -> some View {
+    /// Deep + Light + Awake + Unmeasured always sums to the headline's time in bed. There is no REM
+    /// tile: this ring reports light/deep/awake only, so a REM figure could never be anything but 0.
+    /// `awake == nil` means the ring gave no wakefulness signal at all — shown as "—", not "0h 0m".
+    private func stageCards(prefix: String = "", deep: Int, light: Int, awake: Int?, unmeasured: Int) -> some View {
         GlassCard {
             HStack(spacing: 0) {
-                stage("\(prefix)Deep", deep, .indigo)
-                stage("\(prefix)Light", light, .blue.opacity(0.7))
-                stage("\(prefix)REM", rem, .teal)
-                stage("\(prefix)Awake", awake, .orange)
+                stage("\(prefix)Deep", Fmt.duration(minutes: deep), .indigo)
+                stage("\(prefix)Light", Fmt.duration(minutes: light), .blue.opacity(0.7))
+                stage("\(prefix)Awake", awake.map { Fmt.duration(minutes: $0) } ?? "—", .orange)
+                stage("\(prefix)Unmeasured", Fmt.duration(minutes: unmeasured), .gray)
             }
             .padding(.vertical, 14).padding(.horizontal, 6)
         }
     }
 
-    private func stage(_ label: String, _ minutes: Int, _ color: Color) -> some View {
+    private func stage(_ label: String, _ value: String, _ color: Color) -> some View {
         VStack(spacing: 6) {
-            Text(Fmt.duration(minutes: minutes))
+            Text(value)
                 .font(.system(size: 17, weight: .semibold, design: .rounded))
                 .foregroundStyle(.primary)
             HStack(spacing: 4) {

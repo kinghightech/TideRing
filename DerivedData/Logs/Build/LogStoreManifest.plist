@@ -5,6 +5,91 @@
 	<key>logFormatVersion</key>
 	<integer>12</integer>
 	<key>logs</key>
-	<dict/>
+	<dict>
+		<key>22651F50-73FE-4A4C-8A2D-252CF3EF0F6E</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>22651F50-73FE-4A4C-8A2D-252CF3EF0F6E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>5</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ringmvp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ringmvp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>807666213.62427604</real>
+			<key>timeStoppedRecording</key>
+			<real>807666217.37684798</real>
+			<key>title</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>22651F50-73FE-4A4C-8A2D-252CF3EF0F6E</string>
+		</dict>
+		<key>FB67C07E-3A54-42E6-B7B1-2934212B7C49</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>FB67C07E-3A54-42E6-B7B1-2934212B7C49.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>5</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ringmvp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ringmvp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>807664721.61961699</real>
+			<key>timeStoppedRecording</key>
+			<real>807664724.77711999</real>
+			<key>title</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>FB67C07E-3A54-42E6-B7B1-2934212B7C49</string>
+		</dict>
+	</dict>
 </dict>
 </plist>

@@ -1,0 +1,48 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/TideVitalsView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "ESTIMATED",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 115
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld/%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 173
+        }
+      },
+      {
+        "comment": "",
+        "key": "mmHg",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 176
+        }
+      },
+      {
+        "comment": "",
+        "key": "No %@ data yet",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sync your ring to start this trend.",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 206
+        }
+      }
+    ]
+  },
+  "version": 1
+}

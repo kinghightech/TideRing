@@ -21,12 +21,23 @@ final class TideNotificationService {
         static let calorieGoalDate = "tide.notifications.calorieGoalDate"
         static let sleepGoalDate = "tide.notifications.sleepGoalDate"
         static let morningSummaryDate = "tide.notifications.morningSummaryDate"
+        /// Minutes reported by the summary already sent today, so a later and fuller sync can
+        /// correct an under-reported night instead of being silently suppressed.
+        static let morningSummaryMinutes = "tide.notifications.morningSummaryMinutes"
     }
 
     private enum Identifier {
         static let lowBattery = "tide.ring.low-battery"
         static let morningSleep = "tide.sleep.morning-summary"
     }
+
+    /// When the daily sleep summary goes out. Late enough to be a buffer: sleeping in past this is
+    /// what makes the summary fire mid-sleep and report a short night.
+    private static let summaryHour = 11
+    private static let summaryMinute = 0
+    /// How long after the send time a late first sync can still produce today's summary (→ 5 PM).
+    /// Past that, the night is stale enough that a "your sleep summary" alert is just noise.
+    private static let lateDeliveryWindow: TimeInterval = 6 * 3600
 
     private let center: UNUserNotificationCenter
     private let defaults: UserDefaults
@@ -94,10 +105,12 @@ final class TideNotificationService {
         }
     }
 
+    /// Only call this once a night's history has finished syncing. A partially-synced night reports
+    /// whatever has arrived so far, and the summary below is send-once per day.
     func evaluateSleep(_ night: SleepNight?, settings: RingSettings, now: Date = Date()) {
         guard let night, isRecentCompletedNight(night, relativeTo: now) else { return }
         let sleepDateKey = dateKey(for: night.end)
-        let hours = Double(night.asleepMinutes) / 60
+        let hours = Double(night.timeInBedMinutes) / 60
 
         if settings.sleepGoalHours > 0,
            hours >= settings.sleepGoalHours,
@@ -106,29 +119,34 @@ final class TideNotificationService {
             deliver(
                 identifier: "tide.goal.sleep.\(sleepDateKey)",
                 title: "Sleep goal complete",
-                body: "You hit your \(formatDuration(night.asleepMinutes)) sleep goal!"
+                body: "You hit your \(formatGoal(settings.sleepGoalHours)) sleep goal — \(formatDuration(night.timeInBedMinutes)) in bed."
             )
         }
 
         refreshMorningSleepSummary(using: night, now: now)
     }
 
-    /// Schedule today's 9:30 AM summary once the just-completed night's sleep is available. If the
-    /// ring does not sync until after 9:30, deliver it when that morning sync completes rather than
-    /// scheduling yesterday's duration for the following day.
+    /// Schedule today's morning summary once the just-completed night's sleep is available. If the
+    /// ring does not sync until after the send time, deliver it when that morning sync completes
+    /// rather than scheduling yesterday's duration for the following day.
     func refreshMorningSleepSummary(store: RingStore, settings: RingSettings, now: Date = Date()) {
-        evaluateSleep(store.latestNight, settings: settings, now: now)
+        // `lastNight(forToday:)`, not `latestNight`: the latter is whichever session is newest, so a
+        // completed afternoon nap would be summarised as "last night's sleep". This one is keyed to
+        // the previous local day and must already have ended.
+        evaluateSleep(store.lastNight(forToday: now), settings: settings, now: now)
     }
 
     private func refreshMorningSleepSummary(using night: SleepNight, now: Date) {
         let startOfToday = calendar.startOfDay(for: now)
-        guard let nineThirty = calendar.date(bySettingHour: 9, minute: 30, second: 0, of: startOfToday) else { return }
+        guard let sendTime = calendar.date(
+            bySettingHour: Self.summaryHour, minute: Self.summaryMinute, second: 0, of: startOfToday
+        ) else { return }
         let todayKey = dateKey(for: now)
-        let body = morningBody(minutes: night.asleepMinutes)
+        let body = morningBody(minutes: night.timeInBedMinutes)
 
-        // The fixed identifier lets later sleep packets replace the pending summary with the final total.
-        if now < nineThirty {
-            var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: nineThirty)
+        // The fixed identifier lets a later, fuller sync replace the pending summary with the final total.
+        if now < sendTime {
+            var components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: sendTime)
             components.timeZone = calendar.timeZone
             let content = content(title: "Your Tide sleep summary", body: body)
             let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
@@ -137,15 +155,23 @@ final class TideNotificationService {
                 do {
                     try await center.add(request)
                     defaults.set(todayKey, forKey: Key.morningSummaryDate)
+                    defaults.set(night.timeInBedMinutes, forKey: Key.morningSummaryMinutes)
                 } catch {}
             }
             return
         }
 
-        // A late morning sync should still produce today's summary, but never send it again.
-        guard defaults.string(forKey: Key.morningSummaryDate) != todayKey,
-              now < nineThirty.addingTimeInterval(6 * 3600) else { return }
+        // A late morning sync should still produce today's summary. Normally it is sent once, but a
+        // later sync that recovers a materially longer night replaces it (the identifier is fixed,
+        // so this updates the existing notification rather than stacking a second one). Without
+        // this, one under-reported sync would be the last word for the whole day.
+        guard now < sendTime.addingTimeInterval(Self.lateDeliveryWindow) else { return }
+        let alreadySentToday = defaults.string(forKey: Key.morningSummaryDate) == todayKey
+        let sentMinutes = defaults.integer(forKey: Key.morningSummaryMinutes)
+        if alreadySentToday, night.timeInBedMinutes <= sentMinutes + 15 { return }
+
         defaults.set(todayKey, forKey: Key.morningSummaryDate)
+        defaults.set(night.timeInBedMinutes, forKey: Key.morningSummaryMinutes)
         deliver(identifier: Identifier.morningSleep, title: "Your Tide sleep summary", body: body)
     }
 
@@ -168,8 +194,12 @@ final class TideNotificationService {
         return "\(hours)h \(remainder)m"
     }
 
+    private func formatGoal(_ hours: Double) -> String {
+        formatDuration(Int((hours * 60).rounded()))
+    }
+
     private func isRecentCompletedNight(_ night: SleepNight, relativeTo now: Date) -> Bool {
-        guard night.asleepMinutes > 0, night.end <= now.addingTimeInterval(15 * 60) else { return false }
+        guard night.timeInBedMinutes > 0, night.end <= now.addingTimeInterval(15 * 60) else { return false }
         return night.end >= calendar.startOfDay(for: now).addingTimeInterval(-12 * 3600)
     }
 

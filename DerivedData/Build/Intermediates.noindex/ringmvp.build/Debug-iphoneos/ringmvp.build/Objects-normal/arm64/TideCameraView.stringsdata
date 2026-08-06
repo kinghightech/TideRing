@@ -1,0 +1,104 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/TideCameraView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Camera",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 41
+        }
+      },
+      {
+        "comment": "",
+        "key": "Preparing camera…",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 93
+        }
+      },
+      {
+        "comment": "",
+        "key": "· %llu",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 106
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ring gesture ready",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connect your ring to use gestures",
+        "location": {
+          "startingColumn": 81,
+          "startingLine": 104
+        }
+      },
+      {
+        "comment": "",
+        "key": "Switch camera",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 127
+        }
+      },
+      {
+        "comment": "",
+        "key": "Take photo",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "View Tide photos",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 178
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 170
+        }
+      },
+      {
+        "comment": "",
+        "key": "Tide Photos",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 452
+        }
+      },
+      {
+        "comment": "",
+        "key": "Done",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 458
+        }
+      },
+      {
+        "comment": "",
+        "key": "Photo unavailable",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 477
+        }
+      }
+    ]
+  },
+  "version": 1
+}

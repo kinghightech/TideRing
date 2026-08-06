@@ -12,6 +12,7 @@
 //
 
 import Foundation
+import os
 
 enum RingUUIDs {
     static let service = "000056ff-0000-1000-8000-00805f9b34fb"
@@ -422,14 +423,27 @@ struct RingDecoder {
             | UInt32(bytes[offset + 3]) << 24
     }
 
+    /// Map a 0x11 stage byte. The verified codes for this ring family are `0x00` awake, `0x28`
+    /// light, `0x63` deep — see PulseLoop `RingProtocol.swift:385-392` and `docs/hardware/jring.md`,
+    /// which also records that this hardware has no REM detection at all.
+    ///
+    /// The previous ranges (`0x01...0x4f` light, `0x50...0xff` deep) covered all 256 values, so
+    /// padding or corrupt bytes silently became sleep and inflated the night's totals. Unrecognized
+    /// bytes are now logged, but still fall back to the old magnitude heuristic rather than being
+    /// dropped: if this ring's firmware ever uses different codes, sleep degrades instead of
+    /// vanishing. Once the log stays quiet across a few nights the fallback can go.
     private func stage(_ byte: UInt8) -> SleepStage {
         switch byte {
         case 0x00: return .awake
-        case 0x01...0x4f: return .light
-        case 0x50...0xff: return .deep
-        default: return .unknown
+        case 0x28: return .light
+        case 0x63: return .deep
+        default:
+            Self.protocolLog.debug("Unrecognized 0x11 sleep stage byte 0x\(String(format: "%02x", byte), privacy: .public)")
+            return byte < 0x50 ? .light : .deep
         }
     }
+
+    private static let protocolLog = Logger(subsystem: "com.aahish.ringmvp", category: "RingProtocol")
 }
 
 struct RingEncoder {

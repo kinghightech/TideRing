@@ -75,9 +75,12 @@ enum SleepScore {
         return .needsWork
     }
 
-    /// The full session length used as the score's denominator: time asleep plus measured awake time.
+    /// The full session length used as the score's denominator: time in bed, gaps included. Summing
+    /// the stages instead would shrink the denominator whenever the ring dropped packets, which
+    /// inflates every percentage — a half-reported night would score as if it were all deep sleep.
+    /// PulseLoop divides by the same span (`SleepInsights.swift:69`).
     static func totalMinutes(_ night: SleepNight) -> Int {
-        night.asleepMinutes + night.awakeMinutes
+        night.timeInBedMinutes
     }
 
     static func calculate(_ night: SleepNight) -> SleepScoreResult {
@@ -85,16 +88,7 @@ enum SleepScore {
         let deep = Double(max(0, night.deepMinutes))
         let light = Double(max(0, night.lightMinutes))
         let awake = Double(max(0, night.awakeMinutes))
-        let coveredStageMin = night.blocks.reduce(0.0) { sum, block in
-            switch block.stage {
-            case .deep, .light, .rem, .awake: return sum + Double(max(0, block.minutes))
-            default: return sum
-            }
-        }
-        let hasAwakeSignal =
-            night.blocks.contains { $0.stage == .awake } ||
-            awake > 0 ||
-            (total > 0 && coveredStageMin >= total * 0.95)
+        let hasAwakeSignal = night.hasAwakeSignal
 
         let totalHours = total / 60
         let deepPct = total > 0 ? (deep / total) * 100 : 0

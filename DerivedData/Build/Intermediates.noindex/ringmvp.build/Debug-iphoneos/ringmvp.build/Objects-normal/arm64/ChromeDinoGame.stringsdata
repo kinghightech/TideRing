@@ -1,0 +1,112 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/ChromeDinoGame.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Dino Ring",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 367
+        }
+      },
+      {
+        "comment": "",
+        "key": "RING READY",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 689
+        }
+      },
+      {
+        "comment": "",
+        "key": "SCREEN CONTROL",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 690
+        }
+      },
+      {
+        "comment": "",
+        "key": "DISTANCE",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 733
+        }
+      },
+      {
+        "comment": "",
+        "key": "DINO RING",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 758
+        }
+      },
+      {
+        "comment": "",
+        "key": "Jump the desert from your finger.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 763
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP TO RUN",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 774
+        }
+      },
+      {
+        "comment": "",
+        "key": "Time each jump — there is no double jump",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 779
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP TO RUN AGAIN",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 860
+        }
+      },
+      {
+        "comment": "",
+        "key": "DISTANCE",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 842
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEW DISTANCE RECORD",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 826
+        }
+      },
+      {
+        "comment": "",
+        "key": "RUN ENDED",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 827
+        }
+      },
+      {
+        "comment": "",
+        "key": "BEST",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 851
+        }
+      }
+    ]
+  },
+  "version": 1
+}

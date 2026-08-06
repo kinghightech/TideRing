@@ -256,6 +256,7 @@
 				DEVELOPMENT_TEAM = KZRTRUU4S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tide;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "RingMVP uses Bluetooth to connect to your smart ring and retrieve measurements.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Tide uses the camera so your ring can take photos inside the app.";
@@ -292,6 +293,7 @@
 				DEVELOPMENT_TEAM = KZRTRUU4S7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Tide;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "RingMVP uses Bluetooth to connect to your smart ring and retrieve measurements.";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Tide uses the camera so your ring can take photos inside the app.";

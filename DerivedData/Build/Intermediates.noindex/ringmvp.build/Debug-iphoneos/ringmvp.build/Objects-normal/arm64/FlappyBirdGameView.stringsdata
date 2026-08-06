@@ -1,0 +1,136 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/FlappyBirdGameView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Flappy Ring",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 256
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 615
+        }
+      },
+      {
+        "comment": "",
+        "key": "RING READY",
+        "location": {
+          "startingColumn": 58,
+          "startingLine": 584
+        }
+      },
+      {
+        "comment": "",
+        "key": "SCREEN CONTROL",
+        "location": {
+          "startingColumn": 73,
+          "startingLine": 584
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 601
+        }
+      },
+      {
+        "comment": "",
+        "key": "FLAPPY RING",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 641
+        }
+      },
+      {
+        "comment": "",
+        "key": "Fly it from across the room.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 646
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP TO LAUNCH",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 657
+        }
+      },
+      {
+        "comment": "",
+        "key": "Every tap counts — bursts are queued",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 662
+        }
+      },
+      {
+        "comment": "",
+        "key": "TAP TO FLY AGAIN",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 723
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 701
+        }
+      },
+      {
+        "comment": "",
+        "key": "GATES CLEARED",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 706
+        }
+      },
+      {
+        "comment": "",
+        "key": "NEW FLIGHT RECORD",
+        "location": {
+          "startingColumn": 72,
+          "startingLine": 696
+        }
+      },
+      {
+        "comment": "",
+        "key": "FLIGHT ENDED",
+        "location": {
+          "startingColumn": 94,
+          "startingLine": 696
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 718
+        }
+      },
+      {
+        "comment": "",
+        "key": "BEST",
+        "location": {
+          "startingColumn": 23,
+          "startingLine": 715
+        }
+      }
+    ]
+  },
+  "version": 1
+}

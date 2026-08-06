@@ -1,0 +1,208 @@
+{
+  "source": "/Users/aahishabbani/Projects/tide/tide/Views/MetricDetailView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Range",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 92
+        }
+      },
+      {
+        "comment": "",
+        "key": "No readings in this period.",
+        "location": {
+          "startingColumn": 14,
+          "startingLine": 140
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 196
+        }
+      },
+      {
+        "comment": "",
+        "key": "Range",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 270
+        }
+      },
+      {
+        "comment": "",
+        "key": "Measuring…",
+        "location": {
+          "startingColumn": 59,
+          "startingLine": 280
+        }
+      },
+      {
+        "comment": "",
+        "key": "Measure blood pressure now",
+        "location": {
+          "startingColumn": 76,
+          "startingLine": 280
+        }
+      },
+      {
+        "comment": "",
+        "key": "No blood-pressure readings yet.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 313
+        }
+      },
+      {
+        "comment": "",
+        "key": "Not enough data for this period.",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 318
+        }
+      },
+      {
+        "comment": "",
+        "key": "SYSTOLIC · mmHg",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 331
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld/%lld mmHg",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 349
+        }
+      },
+      {
+        "comment": "",
+        "key": "Range",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 413
+        }
+      },
+      {
+        "comment": "",
+        "key": "Goal %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 398
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld kcal",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 403
+        }
+      },
+      {
+        "comment": "",
+        "key": "Range",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 468
+        }
+      },
+      {
+        "comment": "",
+        "key": "Goal %lld kcal",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 453
+        }
+      },
+      {
+        "comment": "",
+        "key": "Range",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 553
+        }
+      },
+      {
+        "comment": "",
+        "key": "Sync sleep & history",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 541
+        }
+      },
+      {
+        "comment": "",
+        "key": "Syncing…",
+        "location": {
+          "startingColumn": 86,
+          "startingLine": 541
+        }
+      },
+      {
+        "comment": "",
+        "key": "SLEEP ARCHITECTURE",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 574
+        }
+      },
+      {
+        "comment": "",
+        "key": "MONTHLY AVERAGE",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 614
+        }
+      },
+      {
+        "comment": "",
+        "key": "NIGHTLY SLEEP",
+        "location": {
+          "startingColumn": 63,
+          "startingLine": 614
+        }
+      },
+      {
+        "comment": "",
+        "key": "Wear the ring overnight, then connect in the morning — it stores each night on-ring and syncs here. Awake time is captured from restlessness (finger movement) during the night.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 660
+        }
+      },
+      {
+        "comment": "",
+        "key": "No sleep recorded yet",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 659
+        }
+      },
+      {
+        "comment": "",
+        "key": "Not enough nights yet",
+        "location": {
+          "startingColumn": 64,
+          "startingLine": 659
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 705
+        }
+      }
+    ]
+  },
+  "version": 1
+}

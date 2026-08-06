@@ -252,9 +252,11 @@ struct SummaryView: View {
                          series: recentValues(store.heartRate, 24))
         case .sleep:
             let n = store.lastNight(forToday: Date())
-            return .init(metric: metric, value: n.map { Fmt.duration(minutes: $0.asleepMinutes) } ?? "—", unit: "",
+            // Display only — time in bed, to match the Sleep detail headline. The readiness score
+            // above still runs on `asleepMinutes`; don't switch that or every score shifts.
+            return .init(metric: metric, value: n.map { Fmt.duration(minutes: $0.timeInBedMinutes) } ?? "—", unit: "",
                          status: sleepScore.map { "Score \($0)" } ?? "No data",
-                         series: store.sleepNights.suffix(7).map { Double($0.asleepMinutes) })
+                         series: store.sleepNights.suffix(7).map { Double($0.timeInBedMinutes) })
         case .bloodOxygen:
             let v = store.latestSpO2?.value
             return .init(metric: metric, value: v.map { "\(Int($0))" } ?? "—", unit: "%",
@@ -306,8 +308,9 @@ struct SummaryView: View {
         store.addBloodPressure(systolic: 118, diastolic: 76, date: now)
         store.addBloodPressure(systolic: 128, diastolic: 76, date: yesterday)
         if let start = calendar.date(bySettingHour: 23, minute: 0, second: 0, of: yesterday) {
+            // Only the stages this ring can actually report — light/deep/awake, never REM.
             var stages: [SleepStage] = []
-            for i in 0..<75 { let r = i % 10; stages.append(r < 6 ? .light : (r < 8 ? .deep : .rem)) }
+            for i in 0..<75 { let r = i % 10; stages.append(r < 6 ? .light : (r < 9 ? .deep : .awake)) }
             store.addSleepFrame(start: start, stages: stages)
         }
         store.freezeTodayReadiness(settings: manager.settings, now: now)

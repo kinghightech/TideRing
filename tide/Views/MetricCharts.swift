@@ -95,21 +95,61 @@ struct DayPointChart: View {
     var yDomain: ClosedRange<Double>
 
     @State private var selectedDate: Date?
+    /// Width of the visible window. The ring logs every ~30 min and sends history readings in pairs
+    /// 60 s apart, so a whole day crammed into ~330 pt collapses into unreadable clumps. Pinching
+    /// narrows this; dragging scrolls through the day.
+    @State private var visibleSeconds: TimeInterval = fullDaySeconds
+    @State private var scrollPosition = Date()
+    /// Window width when the current pinch began, so magnification stays proportional mid-gesture.
+    @State private var zoomBase: TimeInterval?
+
+    private static let fullDaySeconds: TimeInterval = 24 * 3600
+    private static let minimumWindow: TimeInterval = 3600
+    /// Longest silence the line may span. Beyond this the ring simply wasn't reporting, and joining
+    /// the dots would invent readings that never happened. Matches PulseLoop's 24 h rule
+    /// (`ChartSample.maxGap`).
+    private static let maximumLineGap: TimeInterval = 90 * 60
 
     private var selectedSample: RingReading? {
         guard let selectedDate else { return nil }
         return samples.min { abs($0.date.timeIntervalSince(selectedDate)) < abs($1.date.timeIntervalSince(selectedDate)) }
     }
 
+    /// Samples split into runs of continuous coverage, so the line breaks across data gaps.
+    private var segments: [[RingReading]] {
+        var result: [[RingReading]] = []
+        for sample in samples.sorted(by: { $0.date < $1.date }) {
+            if let last = result.last?.last,
+               sample.date.timeIntervalSince(last.date) <= Self.maximumLineGap {
+                result[result.count - 1].append(sample)
+            } else {
+                result.append([sample])
+            }
+        }
+        return result
+    }
+
+    private var isZoomedIn: Bool { visibleSeconds < Self.fullDaySeconds - 1 }
+
     var body: some View {
         Chart {
-            ForEach(samples) { sample in
-                LineMark(x: .value("Time", sample.date), y: .value("Value", sample.value))
+            ForEach(Array(segments.enumerated()), id: \.offset) { index, segment in
+                ForEach(segment) { sample in
+                    LineMark(
+                        x: .value("Time", sample.date),
+                        y: .value("Value", sample.value),
+                        series: .value("Segment", index)
+                    )
                     .foregroundStyle(tint.opacity(0.35))
-                    .interpolationMethod(.catmullRom)
+                    // Monotone, not catmullRom: the latter overshoots between noisy readings and
+                    // draws peaks and dips the ring never measured.
+                    .interpolationMethod(.monotone)
+                }
+            }
+            ForEach(samples) { sample in
                 PointMark(x: .value("Time", sample.date), y: .value("Value", sample.value))
                     .foregroundStyle(tint.gradient)
-                    .symbolSize(28)
+                    .symbolSize(isZoomedIn ? 40 : 22)
             }
             if let selectedSample {
                 RuleMark(x: .value("Selected", selectedSample.date))
@@ -132,16 +172,61 @@ struct DayPointChart: View {
         .chartXScale(domain: dayDomain)
         .chartYScale(domain: yDomain)
         .chartXAxis {
-            AxisMarks(values: .stride(by: .hour, count: 6)) { _ in
+            AxisMarks(values: .stride(by: .hour, count: axisStrideHours)) { _ in
                 AxisGridLine()
-                AxisValueLabel(format: .dateTime.hour())
+                AxisValueLabel(
+                    format: visibleSeconds <= 6 * 3600
+                        ? .dateTime.hour().minute()
+                        : .dateTime.hour()
+                )
             }
         }
         .chartYAxis {
             AxisMarks(position: .leading, values: .automatic(desiredCount: 4))
         }
+        .chartScrollableAxes(.horizontal)
+        .chartXVisibleDomain(length: visibleSeconds)
+        .chartScrollPosition(x: $scrollPosition)
         .chartXSelection(value: $selectedDate)
         .frame(height: height)
+        .simultaneousGesture(zoomGesture)
+        .onAppear { scrollPosition = dayDomain.lowerBound }
+    }
+
+    /// Pinch to change the window between one hour and the full day, keeping whatever is currently
+    /// centred under the fingers rather than snapping back to midnight.
+    private var zoomGesture: some Gesture {
+        MagnifyGesture()
+            .onChanged { value in
+                let base = zoomBase ?? visibleSeconds
+                if zoomBase == nil { zoomBase = visibleSeconds }
+                let centre = scrollPosition.addingTimeInterval(visibleSeconds / 2)
+                let updated = min(Self.fullDaySeconds, max(Self.minimumWindow, base / value.magnification))
+                visibleSeconds = updated
+                scrollPosition = clampedStart(centring: centre, window: updated)
+            }
+            .onEnded { _ in zoomBase = nil }
+    }
+
+    /// Keep the visible window inside the day, so zooming near midnight or midday can't scroll past
+    /// either edge and leave the plot half empty.
+    private func clampedStart(centring centre: Date, window: TimeInterval) -> Date {
+        let domain = dayDomain
+        let latestStart = domain.upperBound.addingTimeInterval(-window)
+        guard latestStart > domain.lowerBound else { return domain.lowerBound }
+        let proposed = centre.addingTimeInterval(-window / 2)
+        return min(max(proposed, domain.lowerBound), latestStart)
+    }
+
+    /// Roughly four labels across the window at any zoom level.
+    private var axisStrideHours: Int {
+        let hours = visibleSeconds / 3600
+        switch hours {
+        case ..<3: return 1
+        case ..<7: return 2
+        case ..<13: return 3
+        default: return 6
+        }
     }
 
     private var dayDomain: ClosedRange<Date> {
@@ -334,51 +419,89 @@ struct BloodPressureLineChart: View {
     }
 }
 
-/// A sleep hypnogram: proportional colored segments for one night, plus a compact stage legend.
+/// A sleep hypnogram: time-proportional colored segments for one night, plus a compact stage legend.
+///
+/// Drawn with Swift Charts rather than a hand-laid-out `HStack`. Sleep is stored one block per
+/// minute, so a full night is ~480 blocks; the previous layout gave each block a 1 pt *minimum*
+/// width, which made the bar wider than the card it lived in for any night over ~5 h 29 m — it ran
+/// off the trailing edge of the screen, and the drag math (which divided by the container width,
+/// not the bar's real width) could only ever reach the first ~69 % of the night. Charts clips to
+/// its plot area and positions marks by time, so the bar cannot overflow, segments are proportional
+/// to their real duration, and minutes the ring never reported render as visible gaps.
 struct SleepHypnogram: View {
     let night: SleepNight
-    @State private var selectedIndex: Int?
+    @State private var selectedDate: Date?
 
-    private var selectedBlock: SleepBlock? {
-        guard let selectedIndex, night.blocks.indices.contains(selectedIndex) else { return nil }
-        return night.blocks[selectedIndex]
+    /// Consecutive one-minute blocks of the same stage collapsed into a single run — ~30-60 marks
+    /// per night instead of ~480. Mirrors PulseLoop's run-length pass (PulseEventBus.swift:429-443).
+    /// A break of a minute or more starts a new run, which is what makes data gaps visible.
+    private struct StageRun: Identifiable {
+        let stage: SleepStage
+        let start: Date
+        var end: Date
+        var id: Date { start }
+    }
+
+    private var runs: [StageRun] {
+        var result: [StageRun] = []
+        for block in night.blocks.sorted(by: { $0.start < $1.start }) {
+            let end = block.start.addingTimeInterval(TimeInterval(block.minutes * 60))
+            if let last = result.last,
+               last.stage == block.stage,
+               block.start.timeIntervalSince(last.end) < 1 {
+                result[result.count - 1].end = max(last.end, end)
+            } else {
+                result.append(StageRun(stage: block.stage, start: block.start, end: end))
+            }
+        }
+        return result
+    }
+
+    private var selectedRun: StageRun? {
+        guard let selectedDate else { return nil }
+        return runs.first { selectedDate >= $0.start && selectedDate < $0.end }
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if let selectedBlock {
+            if let selectedRun {
+                let minutes = Int(selectedRun.end.timeIntervalSince(selectedRun.start) / 60)
                 ChartCallout(
-                    title: stageLabel(selectedBlock.stage),
-                    subtitle: selectedBlock.start.formatted(.dateTime.hour().minute())
+                    title: stageLabel(selectedRun.stage),
+                    subtitle: "\(selectedRun.start.formatted(.dateTime.hour().minute())) · \(Fmt.duration(minutes: minutes))"
                 )
             }
 
-            GeometryReader { geo in
-                HStack(spacing: 0) {
-                    ForEach(Array(night.blocks.enumerated()), id: \.element.id) { index, block in
-                        Rectangle()
-                            .fill(color(for: block.stage))
-                            .opacity(selectedIndex == nil || selectedIndex == index ? 1 : 0.45)
-                            .frame(width: max(1, geo.size.width / CGFloat(max(night.blocks.count, 1))))
-                            .overlay {
-                                if selectedIndex == index {
-                                    Rectangle().stroke(.white, lineWidth: 2)
-                                }
-                            }
+            if runs.isEmpty || night.end <= night.start {
+                RoundedRectangle(cornerRadius: 6)
+                    .fill(.secondary.opacity(0.15))
+                    .frame(height: 46)
+            } else {
+                Chart {
+                    ForEach(runs) { run in
+                        RectangleMark(
+                            xStart: .value("Start", run.start),
+                            xEnd: .value("End", run.end),
+                            yStart: .value("Bottom", 0),
+                            yEnd: .value("Top", 1)
+                        )
+                        .foregroundStyle(Self.color(for: run.stage))
+                        .opacity(selectedRun == nil || selectedRun?.id == run.id ? 1 : 0.45)
+                    }
+                    if let selectedRun {
+                        RuleMark(x: .value("Selected", selectedRun.start))
+                            .lineStyle(StrokeStyle(lineWidth: 2))
+                            .foregroundStyle(.white.opacity(0.9))
                     }
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-                .contentShape(Rectangle())
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            guard !night.blocks.isEmpty, geo.size.width > 0 else { return }
-                            let fraction = min(max(value.location.x / geo.size.width, 0), 0.9999)
-                            selectedIndex = min(Int(fraction * CGFloat(night.blocks.count)), night.blocks.count - 1)
-                        }
-                )
+                .chartXScale(domain: night.start...night.end)
+                .chartYScale(domain: 0...1)
+                .chartXAxis(.hidden)
+                .chartYAxis(.hidden)
+                .chartPlotStyle { $0.clipShape(RoundedRectangle(cornerRadius: 6)) }
+                .chartXSelection(value: $selectedDate)
+                .frame(height: 46)
             }
-            .frame(height: 46)
 
             HStack {
                 Text(night.start.formatted(.dateTime.hour().minute()))
@@ -388,10 +511,10 @@ struct SleepHypnogram: View {
             .font(.caption2)
             .foregroundStyle(.secondary)
 
+            // No REM entry: this ring reports light/deep/awake only, so the swatch was always dead.
             HStack(spacing: 14) {
                 legend(.deep, "Deep")
                 legend(.light, "Light")
-                legend(.rem, "REM")
                 legend(.awake, "Awake")
             }
         }
@@ -450,7 +573,8 @@ struct SleepDurationChart: View {
             ForEach(nights) { night in
                 BarMark(
                     x: .value("Night", night.id, unit: .day),
-                    y: .value("Hours", Double(night.asleepMinutes) / 60)
+                    // Time in bed, so these bars agree with the Sleep detail headline.
+                    y: .value("Hours", Double(night.timeInBedMinutes) / 60)
                 )
                 .foregroundStyle(Color.indigo.gradient)
                 .clipShape(RoundedRectangle(cornerRadius: 3))
@@ -469,7 +593,7 @@ struct SleepDurationChart: View {
                         overflowResolution: .init(x: .fit(to: .chart), y: .disabled)
                     ) {
                         ChartCallout(
-                            title: Fmt.duration(minutes: selectedNight.asleepMinutes),
+                            title: Fmt.duration(minutes: selectedNight.timeInBedMinutes),
                             subtitle: selectedNight.id.formatted(.dateTime.month(.abbreviated).day())
                         )
                     }
