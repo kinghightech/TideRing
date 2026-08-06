@@ -7,7 +7,7 @@
         "key": "Home",
         "location": {
           "startingColumn": 34,
-          "startingLine": 79
+          "startingLine": 82
         }
       },
       {
@@ -15,7 +15,7 @@
         "key": "Vitals",
         "location": {
           "startingColumn": 34,
-          "startingLine": 83
+          "startingLine": 86
         }
       },
       {
@@ -23,15 +23,15 @@
         "key": "Activity",
         "location": {
           "startingColumn": 34,
-          "startingLine": 87
+          "startingLine": 90
         }
       },
       {
         "comment": "",
-        "key": "Trends",
+        "key": "Coach",
         "location": {
           "startingColumn": 34,
-          "startingLine": 91
+          "startingLine": 94
         }
       },
       {
@@ -39,7 +39,7 @@
         "key": "Settings",
         "location": {
           "startingColumn": 34,
-          "startingLine": 95
+          "startingLine": 98
         }
       }
     ]

@@ -63,7 +63,8 @@ struct MainTabView: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var selection = Self.initialTab
 
-    /// Optional QA override for the starting tab (0 Home · 1 Vitals · 2 Activity · 3 Trends · 4 Settings), per `TIDE_TAB`.
+    /// Optional QA override for the starting tab
+    /// (0 Home · 1 Vitals · 2 Activity · 3 Coach · 4 Settings), per `TIDE_TAB`.
     private static var initialTab: Int {
         Int(ProcessInfo.processInfo.environment["TIDE_TAB"] ?? "") ?? 0
     }
@@ -73,7 +74,9 @@ struct MainTabView: View {
             SummaryView(
                 manager: manager,
                 store: manager.store,
-                onSeeTrends: { selection = 3 },
+                // Trends was retired — it largely duplicated Home. Its "See insights" / "View all"
+                // buttons now open Vitals, which is where the per-metric history actually lives.
+                onSeeTrends: { selection = 1 },
                 onViewVitals: { selection = 1 }
             )
                 .tabItem { Label("Home", systemImage: "house.fill") }
@@ -87,8 +90,8 @@ struct MainTabView: View {
                 .tabItem { Label("Activity", systemImage: "figure.run") }
                 .tag(2)
 
-            TrendsView(manager: manager, store: manager.store)
-                .tabItem { Label("Trends", systemImage: "chart.xyaxis.line") }
+            TideCoachView(manager: manager, store: manager.store)
+                .tabItem { Label("Coach", systemImage: "sparkles") }
                 .tag(3)
 
             SettingsView(manager: manager)

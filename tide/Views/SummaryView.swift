@@ -254,8 +254,12 @@ struct SummaryView: View {
             let n = store.lastNight(forToday: Date())
             // Display only — time in bed, to match the Sleep detail headline. The readiness score
             // above still runs on `asleepMinutes`; don't switch that or every score shifts.
+            //
+            // The status shows the sleep *quality* score, the same number the Sleep detail screen
+            // shows when you tap this card. It used to show `sleepScore`, which is percent-of-goal
+            // — so an 8h30m night against an 8h goal read "Score 100" here and "88" one tap later.
             return .init(metric: metric, value: n.map { Fmt.duration(minutes: $0.timeInBedMinutes) } ?? "—", unit: "",
-                         status: sleepScore.map { "Score \($0)" } ?? "No data",
+                         status: n.map { "Score \(SleepScore.calculate($0).score)" } ?? "No data",
                          series: store.sleepNights.suffix(7).map { Double($0.timeInBedMinutes) })
         case .bloodOxygen:
             let v = store.latestSpO2?.value
@@ -363,6 +367,8 @@ struct HomeBackdrop: View {
 
 // MARK: - Score row (clean, no glass box)
 
+/// Progress toward today's three goals, as percentages (0-100). Note these are *not* quality
+/// scores — the Sleep card lower down shows the sleep quality score, which is a different measure.
 struct ScoreRow: View {
     let sleep: Int?
     let activity: Int?
