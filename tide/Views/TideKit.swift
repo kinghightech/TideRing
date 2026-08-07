@@ -230,6 +230,17 @@ enum Fmt {
         "\(minutes / 60)h \(minutes % 60)m"
     }
 
+    /// Sleep durations, formatted exactly as PulseLoop's `SleepFormat.duration`
+    /// (SleepInsights.swift): zero hours collapses to minutes, and minutes are zero-padded, so a
+    /// seven-hour night reads "7h 00m" rather than "7h 0m".
+    static func sleepDuration(minutes: Int?) -> String {
+        guard let minutes, minutes >= 0 else { return "—" }
+        let hours = minutes / 60
+        let remainder = minutes % 60
+        if hours <= 0 { return "\(remainder)m" }
+        return "\(hours)h \(String(format: "%02d", remainder))m"
+    }
+
     static func relativeDay(_ date: Date, calendar: Calendar = .current) -> String {
         if calendar.isDateInToday(date) { return "Today" }
         if calendar.isDateInYesterday(date) { return "Yesterday" }

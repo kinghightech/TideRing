@@ -564,7 +564,7 @@ private struct SleepDetail: View {
             SleepHeroCard(
                 label: range.heroLabel,
                 // Time in bed, so the headline always matches the start–end range printed beneath it.
-                duration: Fmt.duration(minutes: night.timeInBedMinutes),
+                duration: Fmt.sleepDuration(minutes: night.timeInBedMinutes),
                 support: "\(night.start.formatted(.dateTime.hour().minute())) – \(night.end.formatted(.dateTime.hour().minute()))",
                 score: result.score,
                 quality: result.label.rawValue
@@ -595,7 +595,7 @@ private struct SleepDetail: View {
             let awake = nights.reduce(0) { $0 + $1.awakeMinutes } / nights.count
             SleepHeroCard(
                 label: range.heroLabel,
-                duration: Fmt.duration(minutes: avgDuration),
+                duration: Fmt.sleepDuration(minutes: avgDuration),
                 support: "\(nights.count) nights tracked",
                 score: avgScore,
                 quality: SleepScore.qualityLabel(avgScore).rawValue
@@ -621,9 +621,9 @@ private struct SleepDetail: View {
     private func stageCards(prefix: String = "", deep: Int, light: Int, awake: Int) -> some View {
         GlassCard {
             HStack(spacing: 0) {
-                stage("\(prefix)Deep", Fmt.duration(minutes: deep), .indigo)
-                stage("\(prefix)Light", Fmt.duration(minutes: light), .blue.opacity(0.7))
-                stage("\(prefix)Awake", Fmt.duration(minutes: awake), .orange)
+                stage("\(prefix)Deep", Fmt.sleepDuration(minutes: deep), .indigo)
+                stage("\(prefix)Light", Fmt.sleepDuration(minutes: light), .blue.opacity(0.7))
+                stage("\(prefix)Awake", Fmt.sleepDuration(minutes: awake), .orange)
             }
             .padding(.vertical, 14).padding(.horizontal, 6)
         }

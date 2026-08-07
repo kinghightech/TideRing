@@ -255,7 +255,7 @@
         "key": "Selected",
         "location": {
           "startingColumn": 44,
-          "startingLine": 492
+          "startingLine": 495
         }
       },
       {
@@ -263,7 +263,7 @@
         "key": "Start",
         "location": {
           "startingColumn": 44,
-          "startingLine": 483
+          "startingLine": 486
         }
       },
       {
@@ -271,7 +271,7 @@
         "key": "End",
         "location": {
           "startingColumn": 42,
-          "startingLine": 484
+          "startingLine": 487
         }
       },
       {
@@ -279,7 +279,7 @@
         "key": "Bottom",
         "location": {
           "startingColumn": 44,
-          "startingLine": 485
+          "startingLine": 488
         }
       },
       {
@@ -287,7 +287,7 @@
         "key": "Top",
         "location": {
           "startingColumn": 42,
-          "startingLine": 486
+          "startingLine": 489
         }
       },
       {
@@ -295,7 +295,7 @@
         "key": "Goal",
         "location": {
           "startingColumn": 36,
-          "startingLine": 583
+          "startingLine": 586
         }
       },
       {
@@ -303,7 +303,7 @@
         "key": "Selected",
         "location": {
           "startingColumn": 36,
-          "startingLine": 588
+          "startingLine": 591
         }
       },
       {
@@ -311,7 +311,7 @@
         "key": "Night",
         "location": {
           "startingColumn": 31,
-          "startingLine": 575
+          "startingLine": 578
         }
       },
       {
@@ -319,7 +319,7 @@
         "key": "Hours",
         "location": {
           "startingColumn": 31,
-          "startingLine": 577
+          "startingLine": 580
         }
       }
     ]

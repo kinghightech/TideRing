@@ -6,7 +6,7 @@
 	<integer>12</integer>
 	<key>logs</key>
 	<dict>
-		<key>B74FC18C-A41C-43F1-96C0-96E9AAFEC668</key>
+		<key>9439E20E-55DF-4315-8105-BF616012E5C1</key>
 		<dict>
 			<key>className</key>
 			<string>IDECommandLineBuildLog</string>
@@ -15,21 +15,21 @@
 			<key>domainType</key>
 			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
 			<key>fileName</key>
-			<string>B74FC18C-A41C-43F1-96C0-96E9AAFEC668.xcactivitylog</string>
+			<string>9439E20E-55DF-4315-8105-BF616012E5C1.xcactivitylog</string>
 			<key>hasPrimaryLog</key>
 			<true/>
 			<key>primaryObservable</key>
 			<dict>
 				<key>highLevelStatus</key>
-				<string>E</string>
+				<string>W</string>
 				<key>totalNumberOfAnalyzerIssues</key>
 				<integer>0</integer>
 				<key>totalNumberOfErrors</key>
-				<integer>1</integer>
+				<integer>0</integer>
 				<key>totalNumberOfTestFailures</key>
 				<integer>0</integer>
 				<key>totalNumberOfWarnings</key>
-				<integer>0</integer>
+				<integer>3</integer>
 			</dict>
 			<key>schemeIdentifier-containerName</key>
 			<string>ringmvp project</string>
@@ -40,13 +40,55 @@
 			<key>signature</key>
 			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
 			<key>timeStartedRecording</key>
-			<real>807712111.01377904</real>
+			<real>807713366.57395303</real>
 			<key>timeStoppedRecording</key>
-			<real>807712114.40274799</real>
+			<real>807713369.65621805</real>
 			<key>title</key>
 			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
 			<key>uniqueIdentifier</key>
-			<string>B74FC18C-A41C-43F1-96C0-96E9AAFEC668</string>
+			<string>9439E20E-55DF-4315-8105-BF616012E5C1</string>
+		</dict>
+		<key>B3E15477-196C-4F1F-B8D6-CADFD7C773AC</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>B3E15477-196C-4F1F-B8D6-CADFD7C773AC.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>W</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>5</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>ringmvp project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>ringmvp</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>timeStartedRecording</key>
+			<real>807826593.23573303</real>
+			<key>timeStoppedRecording</key>
+			<real>807826598.14873505</real>
+			<key>title</key>
+			<string>Building project ringmvp with scheme ringmvp and configuration Debug</string>
+			<key>uniqueIdentifier</key>
+			<string>B3E15477-196C-4F1F-B8D6-CADFD7C773AC</string>
 		</dict>
 	</dict>
 </dict>

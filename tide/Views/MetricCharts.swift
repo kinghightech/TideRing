@@ -444,7 +444,10 @@ struct SleepHypnogram: View {
 
     private var runs: [StageRun] {
         var result: [StageRun] = []
-        for block in night.blocks.sorted(by: { $0.start < $1.start }) {
+        // Unknown samples are stored (they count toward the session's span) but never drawn —
+        // PulseLoop's `sortedBlocks` filter, Charts.swift:451.
+        let drawable = night.blocks.filter { $0.minutes > 0 && $0.stage != .unknown }
+        for block in drawable.sorted(by: { $0.start < $1.start }) {
             let end = block.start.addingTimeInterval(TimeInterval(block.minutes * 60))
             if let last = result.last,
                last.stage == block.stage,
@@ -468,7 +471,7 @@ struct SleepHypnogram: View {
                 let minutes = Int(selectedRun.end.timeIntervalSince(selectedRun.start) / 60)
                 ChartCallout(
                     title: stageLabel(selectedRun.stage),
-                    subtitle: "\(selectedRun.start.formatted(.dateTime.hour().minute())) · \(Fmt.duration(minutes: minutes))"
+                    subtitle: "\(selectedRun.start.formatted(.dateTime.hour().minute())) · \(Fmt.sleepDuration(minutes: minutes))"
                 )
             }
 
@@ -593,7 +596,7 @@ struct SleepDurationChart: View {
                         overflowResolution: .init(x: .fit(to: .chart), y: .disabled)
                     ) {
                         ChartCallout(
-                            title: Fmt.duration(minutes: selectedNight.timeInBedMinutes),
+                            title: Fmt.sleepDuration(minutes: selectedNight.timeInBedMinutes),
                             subtitle: selectedNight.id.formatted(.dateTime.month(.abbreviated).day())
                         )
                     }

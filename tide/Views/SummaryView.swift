@@ -258,7 +258,7 @@ struct SummaryView: View {
             // The status shows the sleep *quality* score, the same number the Sleep detail screen
             // shows when you tap this card. It used to show `sleepScore`, which is percent-of-goal
             // — so an 8h30m night against an 8h goal read "Score 100" here and "88" one tap later.
-            return .init(metric: metric, value: n.map { Fmt.duration(minutes: $0.timeInBedMinutes) } ?? "—", unit: "",
+            return .init(metric: metric, value: n.map { Fmt.sleepDuration(minutes: $0.timeInBedMinutes) } ?? "—", unit: "",
                          status: n.map { "Score \(SleepScore.calculate($0).score)" } ?? "No data",
                          series: store.sleepNights.suffix(7).map { Double($0.timeInBedMinutes) })
         case .bloodOxygen:

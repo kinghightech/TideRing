@@ -49,8 +49,13 @@ struct SleepBlock: Identifiable, Codable, Equatable {
     var stageRaw: String
     var start: Date
     var minutes: Int
-    /// Optional keeps legacy snapshots decodable. Version 2 uses the verified one-minute samples.
+    /// Optional keeps legacy snapshots decodable. See `RingStore.sleepSchemaVersion`.
     var sampleSchemaVersion: Int? = nil
+    /// The waking-day key of the 0x11 frame this sample came from. PulseLoop keys a whole *packet*
+    /// to one session (`persistSleepTimeline`), so a frame straddling 7 PM keeps all fifteen of its
+    /// samples together instead of splitting across two nights. Storing it at ingest reproduces
+    /// that exactly. Optional for older snapshots, which fall back to the sample's own timestamp.
+    var nightKeyRef: Date? = nil
     var stage: SleepStage { SleepStage(rawValue: stageRaw) ?? .unknown }
 }
 
@@ -152,6 +157,8 @@ final class RingStore: ObservableObject {
     static let sleepSchemaVersion = 3
     /// PulseLoop's `Calendar.sleepEveningBoundaryHour`.
     static let sleepEveningBoundaryHour = 19
+    /// `RingReading.source` for rows replayed from the ring's stored log, as opposed to live samples.
+    static let historySource = "history"
 
     private let perSeriesCap = 5000
     /// Sleep is capped by age, not row count — see `addSleepFrame`. Covers the Year range.
@@ -174,47 +181,20 @@ final class RingStore: ObservableObject {
         extraMeasurements.filter { $0.kindRaw == kind.rawValue }.max(by: { $0.date < $1.date })
     }
 
-    /// Blocks grouped into continuous sleep sessions. The old calendar-only grouping split a single
-    /// night at 4 AM; session clustering keeps every contiguous block from bedtime through wake-up.
+    /// One night per waking day, exactly as PulseLoop assembles a `SleepSession`
+    /// (`PulseEventBus.persistSleepTimeline`): every frame is filed under its waking-day key and all
+    /// of that day's blocks form the session. There is deliberately no gap clustering and no
+    /// choosing between sessions — those were Tide-only inventions that produced nights spanning
+    /// from a daytime nap to the next morning.
     var sleepNights: [SleepNight] {
-        // Only blocks decoded by the current stage mapping. Earlier builds classified every
-        // unrecognized 0x11 byte as light or deep sleep, so their stored blocks contain hours of
-        // padding recorded as sleep and cannot be repaired — only discarded and re-synced.
+        // Only blocks written by the current decoder. Earlier builds classified every unrecognized
+        // 0x11 byte as light or deep sleep; those rows record padding as sleep and can only be
+        // discarded and re-synced, not repaired.
         let visibleBlocks = sleepBlocks.filter { $0.sampleSchemaVersion == Self.sleepSchemaVersion }
-        let sorted = visibleBlocks.sorted { $0.start < $1.start }
-        var sessions: [[SleepBlock]] = []
-        let maximumSessionGap: TimeInterval = 90 * 60
-
-        for block in sorted {
-            if let previous = sessions.last?.last {
-                let previousEnd = previous.start.addingTimeInterval(TimeInterval(previous.minutes * 60))
-                if block.start.timeIntervalSince(previousEnd) <= maximumSessionGap {
-                    sessions[sessions.count - 1].append(block)
-                    continue
-                }
-            }
-            sessions.append([block])
-        }
-
-        // Assign each session to a night key by the time it *started*, so a session running across
-        // 4 AM stays in one piece.
-        //
-        // Two sessions landing on the same key are, by the clustering above, more than 90 minutes
-        // apart — a daytime nap and that evening's sleep, not one night split across history
-        // packets. Concatenating them (which this used to do) produced a single night running from
-        // the nap's first minute to the next morning's wake-up: a 26-hour "time in bed" with the
-        // whole waking day counted as unmeasured. Keep whichever session holds more recorded sleep
-        // and drop the other, so a night is always one real sleep.
         var groups: [Date: [SleepBlock]] = [:]
-        for session in sessions where !session.isEmpty {
-            let key = nightKey(for: session[0].start)
-            guard let existing = groups[key] else {
-                groups[key] = session
-                continue
-            }
-            let existingMinutes = existing.reduce(0) { $0 + $1.minutes }
-            let candidateMinutes = session.reduce(0) { $0 + $1.minutes }
-            if candidateMinutes > existingMinutes { groups[key] = session }
+        for block in visibleBlocks {
+            let key = block.nightKeyRef ?? nightKey(for: block.start)
+            groups[key, default: []].append(block)
         }
         return groups.map { SleepNight(id: $0.key, blocks: $0.value.sorted { $0.start < $1.start }) }
             .sorted { $0.id < $1.id }
@@ -234,14 +214,56 @@ final class RingStore: ObservableObject {
     /// Unified heart-rate ingest: live samples and stored history land in the same series, deduped by
     /// minute so re-syncing the ring's log can't double-count.
     func addHeartRate(bpm: Int, date: Date, source: String) {
-        let minute = Int(date.timeIntervalSince1970 / 60)
-        if heartRate.contains(where: {
-            Int($0.date.timeIntervalSince1970 / 60) == minute && Int($0.value) == bpm
-        }) { return }
+        if source == Self.historySource {
+            // History rows are upserted on the exact timestamp, matching PulseLoop's
+            // `isDuplicateHistory` (PulseEventBus.swift:368-384): the ring re-sends a slot with a
+            // refined average, and that revision must replace the row rather than sit beside it.
+            // Keying on (minute, value) — as this used to — treated a corrected reading as a new
+            // one, so every re-sync piled up near-duplicates for the same minute and dragged the
+            // average, min and max around.
+            let epoch = Int(date.timeIntervalSince1970)
+            if let index = heartRate.firstIndex(where: {
+                $0.source == Self.historySource && Int($0.date.timeIntervalSince1970) == epoch
+            }) {
+                guard Int(heartRate[index].value) != bpm else { return }
+                heartRate[index].value = Double(bpm)
+                save()
+                return
+            }
+        } else {
+            // Live samples keep the minute-level guard so a streaming measurement can't fill the
+            // series with identical rows.
+            let minute = Int(date.timeIntervalSince1970 / 60)
+            if heartRate.contains(where: {
+                Int($0.date.timeIntervalSince1970 / 60) == minute && Int($0.value) == bpm
+            }) { return }
+        }
         heartRate.append(RingReading(value: Double(bpm), date: date, source: source))
         heartRate.sort { $0.date < $1.date }
         trim(&heartRate)
         save()
+    }
+
+    /// Collapse history rows that share a timestamp, keeping the most recently written value. Rows
+    /// stored before the upsert above exist as duplicates already; this repairs them once at load
+    /// so past averages stop being skewed.
+    private func collapseDuplicateHistory(_ series: [RingReading]) -> [RingReading] {
+        var keptIndexByEpoch: [Int: Int] = [:]
+        var result: [RingReading] = []
+        for reading in series {
+            guard reading.source == Self.historySource else {
+                result.append(reading)
+                continue
+            }
+            let epoch = Int(reading.date.timeIntervalSince1970)
+            if let index = keptIndexByEpoch[epoch] {
+                result[index].value = reading.value
+            } else {
+                keptIndexByEpoch[epoch] = result.count
+                result.append(reading)
+            }
+        }
+        return result
     }
 
     func addSpO2(value: Int, date: Date, source: String = "live") {
@@ -281,13 +303,14 @@ final class RingStore: ObservableObject {
     /// Expand a `0x11` sleep frame (start + one stage per one-minute sample) into blocks, deduped by
     /// start time so a re-synced night doesn't duplicate.
     ///
-    /// `.unknown` samples are dropped rather than stored. They are the frame's padding — not sleep,
-    /// not wakefulness, and not even a gap the ring was awake for. Keeping them would drag the
-    /// session's start and end out to cover the padding, which is exactly how a 1 AM–8 AM night was
-    /// being shown as 9 PM–8 AM.
+    /// Every sample is stored, `.unknown` included — PulseLoop's `persistSleepTimeline` inserts the
+    /// decoded stage unconditionally, and its session bounds are computed over all of them. Unknown
+    /// samples are then excluded from the stage totals and hidden in the hypnogram, never dropped.
     func addSleepFrame(start: Date, stages: [SleepStage]) {
         var changed = false
-        for (i, stage) in stages.enumerated() where stage != .unknown {
+        // One key for the whole frame, from the frame's start — see `SleepBlock.nightKeyRef`.
+        let frameKey = nightKey(for: start)
+        for (i, stage) in stages.enumerated() {
             let blockStart = start.addingTimeInterval(TimeInterval(i * 60))
             let exists = sleepBlocks.contains {
                 $0.sampleSchemaVersion == Self.sleepSchemaVersion
@@ -298,7 +321,8 @@ final class RingStore: ObservableObject {
                 stageRaw: stage.rawValue,
                 start: blockStart,
                 minutes: 1,
-                sampleSchemaVersion: Self.sleepSchemaVersion
+                sampleSchemaVersion: Self.sleepSchemaVersion,
+                nightKeyRef: frameKey
             ))
             changed = true
         }
@@ -446,9 +470,6 @@ final class RingStore: ObservableObject {
     func freezeTodayReadiness(settings: RingSettings, now: Date = Date()) -> TideReadinessSnapshot {
         let todayKey = TideReadinessEngine.localDayKey(for: now, calendar: calendar)
         let existingIndex = readinessSnapshots.firstIndex(where: { $0.dayKey == todayKey })
-        if let existingIndex, readinessSnapshots[existingIndex].score != nil {
-            return readinessSnapshots[existingIndex]
-        }
 
         let today = calendar.startOfDay(for: now)
         let yesterday = calendar.date(byAdding: .day, value: -1, to: today) ?? today
@@ -460,6 +481,7 @@ final class RingStore: ObservableObject {
                 sleepGoalHours: settings.sleepGoalHours
             )
         }
+
         let activityScore = updateActivityScore(onLocalDay: yesterday, settings: settings)
         let yesterdayBP = bloodPressure
             .filter { calendar.isDate($0.date, inSameDayAs: yesterday) }
@@ -473,6 +495,21 @@ final class RingStore: ObservableObject {
             activityScore: activityScore,
             penalty: penalty
         )
+        // Recompute from live data every time, and keep the stored snapshot only when nothing it was
+        // built from has changed. The old code returned the first score of the day forever, so once
+        // Home had shown a number it could never be corrected — not by a re-sync, not by re-decoded
+        // sleep, not by yesterday's activity arriving late. Returning early on an unchanged result
+        // keeps `computedAt` and the persisted history stable without ever showing a stale figure.
+        if let existingIndex {
+            let existing = readinessSnapshots[existingIndex]
+            if existing.score == score,
+               existing.sleepScore == sleepScore,
+               existing.activityScore == activityScore,
+               existing.bloodPressurePenalty == penalty {
+                return existing
+            }
+        }
+
         let snapshot = TideReadinessSnapshot(
             dayKey: todayKey,
             sourceDayKey: sourceKey,
@@ -643,11 +680,14 @@ final class RingStore: ObservableObject {
     private func load() {
         guard let data = try? Data(contentsOf: fileURL),
               let snapshot = try? JSONDecoder().decode(RingStoreSnapshot.self, from: data) else { return }
-        heartRate = snapshot.heartRate
+        heartRate = collapseDuplicateHistory(snapshot.heartRate)
         spo2 = snapshot.spo2
         bloodPressure = snapshot.bloodPressure
         extraMeasurements = snapshot.extraMeasurements
-        sleepBlocks = snapshot.sleepBlocks
+        // Blocks written by an older decoder are unusable — their stage labels are wrong, not just
+        // stale — so drop them at load rather than carrying dead rows forever. The next sync
+        // re-populates from the ring, which keeps roughly a week of history.
+        sleepBlocks = snapshot.sleepBlocks.filter { $0.sampleSchemaVersion == Self.sleepSchemaVersion }
         dailyActivity = snapshot.dailyActivity
         activity = snapshot.activity
         activityBuckets = snapshot.activityBuckets ?? []
